@@ -1,9 +1,3 @@
-const express = require("express");
-const path = require("path");
-
-const app = express();
-const PORT = 3001;
-
 const SUPPORTED_PRODUCT_LINES = [
   "Magic: the Gathering",
   "Pokemon",
@@ -103,8 +97,6 @@ const STORES = [
     cookie: `_shopify_y=97fae67a-ac34-4866-9112-f4a70c7255ac; _shopify_s=c31d266a-8bbe-41e1-9103-e358a00ad939; session=eyJzaG93UHJpY2VzIjp0cnVlfQ==; session.sig=RN-IAHQe8EDIW-TytodNvzV7kyU; buylist_lang_j44snJGh5h=en; bga-buylist-cart-j44snJGh5h=1775716187578-0.23179333417560188; heroku-session-affinity=Q38DAQERU3RpY2t5U2Vzc2lvbkRhdGEB/4AAAQMBBUFwcElEAQwAAQhEeW5vTmFtZQEMAAEJRHlub0NvdW50AQQAAAAM/4ACBXdlYi4xAQQAEc/APO0Ur49uohOWXdc1iIg2Z6I7Ty1W5laFsbBDQvQ=`
   }
 ];
-
-app.use(express.static(path.join(__dirname, "public")));
 
 function normalizeRequestedProductLine(input) {
   const raw = String(input || "").trim();
@@ -424,13 +416,13 @@ if (!alreadyExists) {
     });
 }
 
-app.get("/api/search", async (req, res) => {
+module.exports = async function handler(req, res) {
   try {
     const q = String(req.query.q || "").trim();
     const productLine = normalizeRequestedProductLine(req.query.game);
 
     if (!q) {
-      return res.json({
+      return res.status(200).json({
         query: "",
         game: productLine,
         supportedGames: SUPPORTED_PRODUCT_LINES,
@@ -459,7 +451,7 @@ app.get("/api/search", async (req, res) => {
 
     const combined = combineProducts(results);
 
-    res.json({
+    return res.status(200).json({
       query: q,
       game: productLine,
       supportedGames: SUPPORTED_PRODUCT_LINES,
@@ -475,13 +467,9 @@ app.get("/api/search", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    return res.status(500).json({
       error: "Search failed",
       details: error.message
     });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Buylist app running on http://localhost:${PORT}`);
-});
+};
