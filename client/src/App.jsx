@@ -267,134 +267,145 @@ nav {
    ===================== */
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 100;
-  background: rgba(8,8,8,0.55);
-  display: flex; align-items: stretch;
-  animation: bdfadein 0.18s ease;
+  background: rgba(8,8,8,0.62);
+  display: flex; align-items: center; justify-content: center;
+  animation: bdfadein 0.2s ease;
 }
 @keyframes bdfadein { from { opacity: 0; } }
 
+/* centered card, fixed size, rounded corners */
 .modal {
-  margin-left: auto;
-  width: min(800px, 100vw);
+  position: relative;
+  width: min(880px, calc(100vw - 40px));
+  height: min(600px, calc(100vh - 60px));
   background: var(--white);
+  border-radius: 16px;
   display: flex; flex-direction: column;
   overflow: hidden;
-  animation: modalslidein 0.32s var(--ease);
-  box-shadow: -24px 0 72px rgba(0,0,0,0.18);
+  animation: modalpopin 0.28s var(--ease);
+  box-shadow: 0 40px 120px rgba(0,0,0,0.32), 0 4px 16px rgba(0,0,0,0.1);
 }
-@keyframes modalslidein {
-  from { transform: translateX(48px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
+@keyframes modalpopin {
+  from { transform: scale(0.94) translateY(16px); opacity: 0; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
 }
+
+/* close button floats top-right over the image */
+.modal-close-btn {
+  position: absolute;
+  top: 14px; right: 14px;
+  z-index: 20;
+  width: 30px; height: 30px;
+  background: rgba(10,10,10,0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 50%;
+  cursor: pointer;
+  color: rgba(255,255,255,0.75);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 17px; line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+.modal-close-btn:hover { background: rgba(10,10,10,0.8); color: #fff; }
 
 .modal-layout {
-  display: flex; flex: 1; overflow: hidden;
+  display: flex; flex: 1; overflow: hidden; min-height: 0;
 }
 
-/* ---- LEFT PANEL ---- */
+/* ── LEFT IMAGE PANEL ── */
 .modal-left {
-  width: 280px; flex-shrink: 0;
+  width: 260px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
   background: #0a0a0a;
-  display: flex; flex-direction: column;
-  overflow: hidden; position: relative;
 }
 
-/* image container with zoom-in reveal */
+/* image fills the entire left panel via absolute */
 .modal-img-container {
-  flex: 1;
-  overflow: hidden;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
+  position: absolute;
+  inset: 0;
 }
 
 .modal-card-img {
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
   object-position: top center;
   display: block;
-  animation: imgreveal 0.55s var(--ease) both;
-  transform-origin: center top;
+  animation: imgreveal 0.45s var(--ease) both;
 }
-
 @keyframes imgreveal {
-  from {
-    transform: scale(1.12) translateY(12px);
-    opacity: 0;
-    filter: blur(6px);
-  }
-  to {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-    filter: blur(0);
-  }
+  from { transform: scale(1.07); opacity: 0; filter: blur(5px); }
+  to   { transform: scale(1);    opacity: 1; filter: blur(0);   }
 }
 
-/* subtle shine sweep on load */
+/* shine sweep across the image on open */
 .modal-img-container::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(
-    110deg,
-    transparent 30%,
-    rgba(255,255,255,0.08) 50%,
-    transparent 70%
-  );
-  animation: shinesweep 0.9s var(--ease) 0.2s both;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.08) 50%, transparent 80%);
+  animation: shinesweep 0.75s var(--ease) 0.1s both;
   pointer-events: none;
 }
 @keyframes shinesweep {
-  from { transform: translateX(-100%); }
+  from { transform: translateX(-140%); }
   to   { transform: translateX(200%); }
 }
 
 .modal-no-img {
-  flex: 1; display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 11px; color: #444;
-  background: #111;
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11px; color: #555;
 }
 
-/* gradient bar at bottom of left panel */
+/* name + chips float over gradient at the bottom of the image */
 .modal-left-foot {
-  position: relative;
-  padding: 20px 18px 18px;
-  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85) 30%, #0a0a0a 100%);
-  /* lift it over the image */
-  margin-top: -80px;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
   z-index: 2;
+  padding: 56px 18px 20px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,0.65) 35%,
+    rgba(0,0,0,0.95) 100%
+  );
 }
 
 .modal-card-name {
-  font-family: var(--display); font-size: 15px; font-weight: 800;
-  color: #fff; letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 8px;
-  animation: textrisein 0.4s var(--ease) 0.15s both;
+  font-family: var(--display); font-size: 14px; font-weight: 800;
+  color: #fff; letter-spacing: -0.3px; line-height: 1.25;
+  margin-bottom: 9px;
+  animation: textrise 0.36s var(--ease) 0.1s both;
+}
+@keyframes textrise {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
 }
 
 .modal-chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip {
   display: inline-block; padding: 3px 7px;
   background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.14);
+  border: 1px solid rgba(255,255,255,0.15);
   border-radius: 4px;
-  font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.45);
+  font-family: var(--mono); font-size: 9px;
+  color: rgba(255,255,255,0.48);
   letter-spacing: 0.03em;
-  animation: textrisein 0.4s var(--ease) 0.22s both;
+  animation: textrise 0.36s var(--ease) 0.18s both;
 }
 
-@keyframes textrisein {
-  from { transform: translateY(8px); opacity: 0; }
-  to   { transform: translateY(0);   opacity: 1; }
-}
-
-/* ---- RIGHT PANEL ---- */
+/* ── RIGHT PANEL ── */
 .modal-right {
-  flex: 1; display: flex; flex-direction: column;
-  overflow: hidden; border-left: 1px solid var(--rule);
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid var(--rule);
 }
+
 .modal-right-head {
   padding: 18px 22px 14px;
   border-bottom: 1px solid var(--rule);
-  display: flex; align-items: flex-start; justify-content: space-between;
   flex-shrink: 0;
 }
 .modal-right-title {
@@ -404,18 +415,10 @@ nav {
 .modal-right-sub {
   font-family: var(--mono); font-size: 11px; color: var(--mid); margin-top: 2px;
 }
-.modal-close-btn {
-  width: 30px; height: 30px; background: var(--bg);
-  border: 1px solid var(--rule); border-radius: 6px;
-  cursor: pointer; color: var(--mid);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; line-height: 1; padding-bottom: 1px;
-  transition: color 0.1s, border-color 0.1s; flex-shrink: 0;
-}
-.modal-close-btn:hover { color: var(--ink); border-color: var(--ink-3); }
 
 .modal-best {
-  padding: 14px 22px; background: var(--ink);
+  padding: 13px 22px;
+  background: var(--ink);
   display: flex; gap: 28px; flex-shrink: 0;
 }
 .best-item { display: flex; flex-direction: column; gap: 2px; }
@@ -430,10 +433,10 @@ nav {
 .best-val.secondary { color: rgba(255,255,255,0.55); font-size: 15px; }
 
 .modal-stores-scroll {
-  flex: 1; overflow-y: auto; padding: 12px 0 20px;
+  flex: 1; overflow-y: auto; padding: 8px 0 20px;
 }
 .modal-stores-scroll::-webkit-scrollbar { width: 3px; }
-.modal-stores-scroll::-webkit-scrollbar-thumb { background: #e0e0e0; }
+.modal-stores-scroll::-webkit-scrollbar-thumb { background: #ddd; }
 
 /* store rows */
 .store-entry {
@@ -543,31 +546,25 @@ nav {
     flex-shrink: 0;
   }
 
-  /* left panel becomes a horizontal hero strip */
+  /* left panel becomes a full-width hero strip */
   .modal-left {
     width: 100%;
-    flex-direction: row;
     height: 160px;
     flex-shrink: 0;
   }
 
   .modal-img-container {
-    width: 110px;
-    flex-shrink: 0;
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
   }
 
-  .modal-card-img {
-    object-position: top center;
-  }
-
-  /* footer info beside image */
   .modal-left-foot {
-    flex: 1;
-    margin-top: 0;
-    background: #0a0a0a;
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 14px 16px;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 40px 16px 14px;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.92) 100%);
   }
 
   .modal-right {
@@ -579,6 +576,10 @@ nav {
   .modal-stores-scroll {
     overflow: visible;
     padding-bottom: 40px;
+  }
+
+  .modal-close-btn {
+    top: 10px; right: 10px;
   }
 }
 
@@ -767,6 +768,10 @@ export default function App() {
       {selected && (
         <div className="modal-backdrop" onClick={() => setSelected(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
+
+            {/* floating close button, top-right, over the image */}
+            <button className="modal-close-btn" onClick={() => setSelected(null)}>×</button>
+
             <div className="modal-layout">
 
               {/* ── LEFT / IMAGE PANEL ── */}
@@ -783,14 +788,15 @@ export default function App() {
                   }
                 </div>
 
+                {/* name + chips float over the gradient at the bottom */}
                 <div className="modal-left-foot">
                   <div className="modal-card-name">{selected.name}</div>
                   <div className="modal-chips">
                     {selected.productLine && <span className="chip">{selected.productLine}</span>}
-                    {selected.setName && <span className="chip">{selected.setName}</span>}
-                    {selected.rarity && <span className="chip">{selected.rarity}</span>}
-                    {selected.finish && <span className="chip">{selected.finish}</span>}
-                    {selected.cardCode && <span className="chip">{selected.cardCode}</span>}
+                    {selected.setName      && <span className="chip">{selected.setName}</span>}
+                    {selected.rarity       && <span className="chip">{selected.rarity}</span>}
+                    {selected.finish       && <span className="chip">{selected.finish}</span>}
+                    {selected.cardCode     && <span className="chip">{selected.cardCode}</span>}
                   </div>
                 </div>
               </div>
@@ -798,13 +804,10 @@ export default function App() {
               {/* ── RIGHT / STORES PANEL ── */}
               <div className="modal-right">
                 <div className="modal-right-head">
-                  <div>
-                    <div className="modal-right-title">Buylist Offers</div>
-                    <div className="modal-right-sub">
-                      {selected.buylistCount || 0} store{(selected.buylistCount || 0) !== 1 ? "s" : ""} buying this card
-                    </div>
+                  <div className="modal-right-title">Buylist Offers</div>
+                  <div className="modal-right-sub">
+                    {selected.buylistCount || 0} store{(selected.buylistCount || 0) !== 1 ? "s" : ""} buying this card
                   </div>
-                  <button className="modal-close-btn" onClick={() => setSelected(null)}>×</button>
                 </div>
 
                 <div className="modal-best">
@@ -825,7 +828,7 @@ export default function App() {
                         <div className={`rank-badge${idx === 0 ? " first" : ""}`}>{idx + 1}</div>
                         <span className="store-entry-name">{store.storeName}</span>
                         <div className="store-entry-links">
-                          {store.storeBaseUrl && <a className="entry-link" href={store.storeBaseUrl} target="_blank" rel="noreferrer">Store ↗</a>}
+                          {store.storeBaseUrl    && <a className="entry-link" href={store.storeBaseUrl}    target="_blank" rel="noreferrer">Store ↗</a>}
                           {store.storeBuylistUrl && <a className="entry-link" href={store.storeBuylistUrl} target="_blank" rel="noreferrer">Buylist ↗</a>}
                         </div>
                       </div>
