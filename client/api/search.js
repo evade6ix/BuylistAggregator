@@ -416,7 +416,7 @@ if (!alreadyExists) {
     });
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   try {
     const q = String(req.query.q || "").trim();
     const productLine = normalizeRequestedProductLine(req.query.game);
@@ -472,4 +472,4 @@ module.exports = async function handler(req, res) {
       details: error.message
     });
   }
-};
+}
