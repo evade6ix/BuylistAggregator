@@ -52,6 +52,15 @@ const STORES = [
     cookie: `_shopify_y=57a95c44-007d-42e6-a156-1b055fb20b97; AMP_6d4f915888=JTdCJTIyZGV2aWNlSWQlMjIlM0ElMjI1MjYzMzc3ZS02NjE3LTQ3OWEtYTZiNy00MzA3ZDMyODNiMTYlMjIlMkMlMjJzZXNzaW9uSWQlMjIlM0ExNzc1NjI4ODI0Mzc4JTJDJTIyb3B0T3V0JTIyJTNBZmFsc2UlMkMlMjJsYXN0RXZlbnRUaW1lJTIyJTNBMTc3NTYyODgyNDM3OCUyQyUyMmxhc3RFdmVudElkJTIyJTNBMCUyQyUyMnBhZ2VDb3VudGVyJTIyJTNBMCU3RA==; session=eyJzaG93UHJpY2VzIjp0cnVlfQ==; session.sig=RN-IAHQe8EDIW-TytodNvzV7kyU; heroku-session-affinity=Q38DAQERU3RpY2t5U2Vzc2lvbkRhdGEB/4AAAQMBBUFwcElEAQwAAQhEeW5vTmFtZQEMAAEJRHlub0NvdW50AQQAAAAM/4ACBXdlYi4xAQQAEc/APO0Ur49uohOWXdc1iIg2Z6I7Ty1W5laFsbBDQvQ=; buylist_lang_yaRBQxStq1=en; bga-buylist-cart-yaRBQxStq1=1775715902874-0.28825748408570195`
   },
   {
+  key: "etb",
+  name: "Enter The Battlefield",
+  baseUrl: "https://enterthebattlefield.ca/",
+  buylistUrl: "https://buylist.enterthebattlefield.ca/retailer/buylist",
+  searchBase: "https://buylist.enterthebattlefield.ca/saas/search",
+  storeId: "TAWdyDsyt9",
+  cookie: `_shopify_y=ba82405e-af81-4ddb-9b05-da3ae542c15f; session=eyJzaG93UHJpY2VzIjp0cnVlfQ==; session.sig=RN-IAHQe8EDIW-TytodNvzV7kyU; heroku-session-affinity=Q38DAQERU3RpY2t5U2Vzc2lvbkRhdGEB/4AAAQMBBUFwcElEAQwAAQhEeW5vTmFtZQEMAAEJRHlub0NvdW50AQQAAAAM/4ACBXdlYi4xAQQAEc/APO0Ur49uohOWXdc1iIg2Z6I7Ty1W5laFsbBDQvQ=; buylist_lang_TAWdyDsyt9=en; bga-buylist-cart-TAWdyDsyt9=744141470070.1292`
+},
+  {
     key: "darkfox",
     name: "Dark Fox TCG",
     baseUrl: "https://darkfoxtcg.com/",
