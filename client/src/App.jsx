@@ -262,7 +262,9 @@ nav {
 }
 .empty-state p { font-size: 14px; color: var(--mid); }
 
-/* MODAL BACKDROP */
+/* =====================
+   MODAL — DESKTOP
+   ===================== */
 .modal-backdrop {
   position: fixed; inset: 0; z-index: 100;
   background: rgba(8,8,8,0.55);
@@ -273,15 +275,15 @@ nav {
 
 .modal {
   margin-left: auto;
-  width: min(760px, 100vw);
+  width: min(800px, 100vw);
   background: var(--white);
   display: flex; flex-direction: column;
   overflow: hidden;
-  animation: modalslidein 0.26s var(--ease);
-  box-shadow: -24px 0 72px rgba(0,0,0,0.16);
+  animation: modalslidein 0.32s var(--ease);
+  box-shadow: -24px 0 72px rgba(0,0,0,0.18);
 }
 @keyframes modalslidein {
-  from { transform: translateX(36px); opacity: 0; }
+  from { transform: translateX(48px); opacity: 0; }
   to   { transform: translateX(0);    opacity: 1; }
 }
 
@@ -289,46 +291,102 @@ nav {
   display: flex; flex: 1; overflow: hidden;
 }
 
-/* modal left panel */
+/* ---- LEFT PANEL ---- */
 .modal-left {
-  width: 260px; flex-shrink: 0;
-  background: #edeae4;
-  display: flex; flex-direction: column; overflow: hidden;
+  width: 280px; flex-shrink: 0;
+  background: #0a0a0a;
+  display: flex; flex-direction: column;
+  overflow: hidden; position: relative;
 }
-.modal-left-no-image {
-  background: var(--white);
-  justify-content: flex-start;
+
+/* image container with zoom-in reveal */
+.modal-img-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
 }
+
 .modal-card-img {
-  width: 100%; flex: 1; object-fit: cover;
-  object-position: top; display: block; min-height: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  animation: imgreveal 0.55s var(--ease) both;
+  transform-origin: center top;
 }
+
+@keyframes imgreveal {
+  from {
+    transform: scale(1.12) translateY(12px);
+    opacity: 0;
+    filter: blur(6px);
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+/* subtle shine sweep on load */
+.modal-img-container::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 70%
+  );
+  animation: shinesweep 0.9s var(--ease) 0.2s both;
+  pointer-events: none;
+}
+@keyframes shinesweep {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(200%); }
+}
+
 .modal-no-img {
   flex: 1; display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 11px; color: #bbb;
+  font-family: var(--mono); font-size: 11px; color: #444;
+  background: #111;
 }
+
+/* gradient bar at bottom of left panel */
 .modal-left-foot {
-  padding: 14px 16px; border-top: 1px solid rgba(0,0,0,0.07);
-  background: var(--white);
+  position: relative;
+  padding: 20px 18px 18px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.85) 30%, #0a0a0a 100%);
+  /* lift it over the image */
+  margin-top: -80px;
+  z-index: 2;
 }
-.modal-left-foot-full {
-  border-top: none;
-  padding-top: 22px;
-}
+
 .modal-card-name {
-  font-family: var(--display); font-size: 14.5px; font-weight: 800;
-  color: var(--ink); letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 7px;
+  font-family: var(--display); font-size: 15px; font-weight: 800;
+  color: #fff; letter-spacing: -0.4px; line-height: 1.2; margin-bottom: 8px;
+  animation: textrisein 0.4s var(--ease) 0.15s both;
 }
+
 .modal-chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip {
   display: inline-block; padding: 3px 7px;
-  background: var(--bg); border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.14);
   border-radius: 4px;
-  font-family: var(--mono); font-size: 9px; color: var(--mid);
+  font-family: var(--mono); font-size: 9px; color: rgba(255,255,255,0.45);
   letter-spacing: 0.03em;
+  animation: textrisein 0.4s var(--ease) 0.22s both;
 }
 
-/* modal right panel */
+@keyframes textrisein {
+  from { transform: translateY(8px); opacity: 0; }
+  to   { transform: translateY(0);   opacity: 1; }
+}
+
+/* ---- RIGHT PANEL ---- */
 .modal-right {
   flex: 1; display: flex; flex-direction: column;
   overflow: hidden; border-left: 1px solid var(--rule);
@@ -445,6 +503,84 @@ nav {
 .vcell.vcash  { color: var(--cash); }
 .vcell.vnum   { justify-content: flex-end; }
 .vcell.vhead-lbl { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.07em; }
+
+/* =====================
+   MOBILE BOTTOM SHEET
+   ===================== */
+@media (max-width: 640px) {
+  .modal-backdrop {
+    align-items: flex-end;
+  }
+
+  .modal {
+    width: 100%;
+    margin-left: 0;
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -12px 48px rgba(0,0,0,0.22);
+    animation: sheetslideup 0.36s var(--ease);
+  }
+
+  @keyframes sheetslideup {
+    from { transform: translateY(60px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+
+  .modal-layout {
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* drag handle */
+  .modal-layout::before {
+    content: '';
+    display: block;
+    width: 36px; height: 4px;
+    background: #d0cdc8;
+    border-radius: 2px;
+    margin: 10px auto 0;
+    flex-shrink: 0;
+  }
+
+  /* left panel becomes a horizontal hero strip */
+  .modal-left {
+    width: 100%;
+    flex-direction: row;
+    height: 160px;
+    flex-shrink: 0;
+  }
+
+  .modal-img-container {
+    width: 110px;
+    flex-shrink: 0;
+    height: 100%;
+  }
+
+  .modal-card-img {
+    object-position: top center;
+  }
+
+  /* footer info beside image */
+  .modal-left-foot {
+    flex: 1;
+    margin-top: 0;
+    background: #0a0a0a;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 14px 16px;
+  }
+
+  .modal-right {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    overflow: visible;
+  }
+
+  .modal-stores-scroll {
+    overflow: visible;
+    padding-bottom: 40px;
+  }
+}
 
 ::selection { background: var(--ink); color: var(--white); }
 `
@@ -632,8 +768,22 @@ export default function App() {
         <div className="modal-backdrop" onClick={() => setSelected(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
             <div className="modal-layout">
-              <div className="modal-left modal-left-no-image">
-                <div className="modal-left-foot modal-left-foot-full">
+
+              {/* ── LEFT / IMAGE PANEL ── */}
+              <div className="modal-left">
+                <div className="modal-img-container">
+                  {selected.image
+                    ? <img
+                        key={selected.image}
+                        src={selected.image}
+                        alt={selected.name}
+                        className="modal-card-img"
+                      />
+                    : <div className="modal-no-img">NO IMAGE</div>
+                  }
+                </div>
+
+                <div className="modal-left-foot">
                   <div className="modal-card-name">{selected.name}</div>
                   <div className="modal-chips">
                     {selected.productLine && <span className="chip">{selected.productLine}</span>}
@@ -645,6 +795,7 @@ export default function App() {
                 </div>
               </div>
 
+              {/* ── RIGHT / STORES PANEL ── */}
               <div className="modal-right">
                 <div className="modal-right-head">
                   <div>
@@ -716,6 +867,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         </div>
