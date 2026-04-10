@@ -312,7 +312,7 @@ nav {
 
 /* ── LEFT IMAGE PANEL ── */
 .modal-left {
-  width: 260px;
+  width: 320px;
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
@@ -366,9 +366,9 @@ nav {
 
 .card-wrapper {
   position: relative;
-  width: 148px;
+  width: 196px;
   /* aspect-ratio 2.5/3.5 */
-  height: 207px;
+  height: 274px;
   border-radius: 8px;
   transform-style: preserve-3d;
   animation: cardFloat 4.2s ease-in-out infinite, cardEntrance 0.7s var(--ease) both;
@@ -514,8 +514,8 @@ nav {
   bottom: 18px;
   left: 50%;
   transform: translateX(-50%);
-  width: 110px;
-  height: 18px;
+  width: 145px;
+  height: 22px;
   background: radial-gradient(ellipse at center, rgba(80,40,200,0.5) 0%, transparent 70%);
   border-radius: 50%;
   animation: shadowPulse 4.2s ease-in-out infinite;
