@@ -316,7 +316,136 @@ nav {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  background: #080808;
+}
+
+/* =====================
+   NEBULA BACKGROUND
+   ===================== */
+.nebula-bg {
+  position: absolute;
+  inset: 0;
+  /* Deep space base */
+  background: #0d0a1a;
+  overflow: hidden;
+}
+
+/* Primary nebula cloud layers */
+.nebula-bg::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  width: 180%; height: 180%;
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 40%, rgba(120, 40, 200, 0.55) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 80% at 75% 65%, rgba(20, 80, 200, 0.45) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 50% at 55% 20%, rgba(200, 50, 120, 0.35) 0%, transparent 45%),
+    radial-gradient(ellipse 70% 40% at 20% 80%, rgba(40, 160, 180, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse 40% 60% at 85% 25%, rgba(80, 200, 140, 0.2) 0%, transparent 40%);
+  animation: nebulaShift 12s ease-in-out infinite alternate;
+}
+
+/* Secondary aurora ribbons */
+.nebula-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, rgba(160, 40, 255, 0.12) 0%, transparent 40%),
+    linear-gradient(225deg, rgba(0, 180, 255, 0.1) 0%, transparent 35%),
+    linear-gradient(45deg,  rgba(255, 80, 140, 0.08) 0%, transparent 45%),
+    linear-gradient(315deg, rgba(80, 255, 200, 0.07) 0%, transparent 30%);
+  animation: auroraRipple 8s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaShift {
+  0%   { transform: translate(0, 0)      rotate(0deg)   scale(1); }
+  33%  { transform: translate(12px, -8px) rotate(2deg)  scale(1.04); }
+  66%  { transform: translate(-8px, 14px) rotate(-1.5deg) scale(0.97); }
+  100% { transform: translate(6px, -10px) rotate(3deg)  scale(1.02); }
+}
+
+@keyframes auroraRipple {
+  0%   { opacity: 0.6; transform: skewX(0deg)   skewY(0deg); }
+  50%  { opacity: 1;   transform: skewX(1.5deg) skewY(-1deg); }
+  100% { opacity: 0.7; transform: skewX(-1deg)  skewY(1.5deg); }
+}
+
+/* Star field layer */
+.nebula-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Subtle noise grain overlay for depth */
+.nebula-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Soft vignette to focus on card center */
+.nebula-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 75% at 50% 48%, transparent 30%, rgba(6, 4, 16, 0.55) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Glowing orb accent light */
+.nebula-orb {
+  position: absolute;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(160, 80, 255, 0.22) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbPulse 5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+@keyframes orbPulse {
+  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+  50%  { transform: translate(-50%, -52%) scale(1.15); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+}
+
+/* Horizontal aurora scan line */
+.nebula-scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right,
+    transparent 0%,
+    rgba(160, 100, 255, 0.3) 20%,
+    rgba(100, 200, 255, 0.5) 50%,
+    rgba(160, 100, 255, 0.3) 80%,
+    transparent 100%
+  );
+  top: 35%;
+  animation: scanDrift 7s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(1px);
+}
+.nebula-scan:nth-child(2) {
+  top: 60%;
+  animation-delay: -3.5s;
+  animation-duration: 9s;
+  opacity: 0.6;
+}
+
+@keyframes scanDrift {
+  0%   { top: 30%; opacity: 0.4; }
+  50%  { opacity: 0.8; }
+  100% { top: 45%; opacity: 0.4; }
 }
 
 /* =====================
@@ -329,10 +458,7 @@ nav {
   align-items: center;
   justify-content: center;
   perspective: 900px;
-  /* dark ambient radial glow behind card */
-  background:
-    radial-gradient(ellipse 70% 55% at 50% 52%, rgba(120,80,255,0.18) 0%, transparent 70%),
-    #080808;
+  z-index: 2;
 }
 
 /* subtle dust particles */
@@ -340,51 +466,59 @@ nav {
   content: '';
   position: absolute; inset: 0;
   background-image:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.25) 0%, transparent 100%),
-    radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.18) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 55% 75%, rgba(255,255,255,0.2) 0%, transparent 100%),
-    radial-gradient(1px 1px at 10% 65%, rgba(255,255,255,0.12) 0%, transparent 100%),
-    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,0.15) 0%, transparent 100%),
-    radial-gradient(1px 1px at 40% 88%, rgba(255,255,255,0.1) 0%, transparent 100%);
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.28) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 65%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 88%, rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 10%, rgba(200,180,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 32% 52%, rgba(180,220,255,0.22) 0%, transparent 100%);
   pointer-events: none;
   animation: dustdrift 6s ease-in-out infinite alternate;
+  z-index: 1;
 }
 @keyframes dustdrift {
   from { transform: translateY(0px); opacity: 0.7; }
   to   { transform: translateY(-5px); opacity: 1; }
 }
 
-/* floor reflection */
+/* floor reflection — now tinted purple/blue instead of black */
 .card-scene::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, rgba(120,80,255,0.06) 60%, rgba(80,120,255,0.04) 100%);
+  height: 100px;
+  background: linear-gradient(to bottom,
+    transparent,
+    rgba(80, 40, 180, 0.08) 60%,
+    rgba(40, 80, 200, 0.06) 100%
+  );
   pointer-events: none;
+  z-index: 1;
 }
 
 .card-wrapper {
   position: relative;
   width: 196px;
-  /* aspect-ratio 2.5/3.5 */
   height: 274px;
   border-radius: 8px;
   transform-style: preserve-3d;
   animation: cardFloat 4.2s ease-in-out infinite, cardEntrance 0.7s var(--ease) both;
   will-change: transform;
-  filter: drop-shadow(0 28px 40px rgba(0,0,0,0.65)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  filter: drop-shadow(0 28px 40px rgba(60, 20, 120, 0.7)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  z-index: 2;
 }
 
 @keyframes cardEntrance {
   from {
     transform: translateY(30px) rotateX(30deg) rotateY(-20deg) scale(0.85);
     opacity: 0;
-    filter: blur(6px) drop-shadow(0 28px 40px rgba(0,0,0,0.65));
+    filter: blur(6px) drop-shadow(0 28px 40px rgba(60,20,120,0.7));
   }
   to {
     opacity: 1;
-    filter: blur(0) drop-shadow(0 28px 40px rgba(0,0,0,0.65)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+    filter: blur(0) drop-shadow(0 28px 40px rgba(60,20,120,0.7)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
   }
 }
 
@@ -404,7 +538,7 @@ nav {
   display: block;
 }
 
-/* holographic overlay — rainbow shimmer that sweeps in a loop */
+/* holographic overlay */
 .card-holo {
   position: absolute; inset: 0;
   border-radius: 8px;
@@ -442,7 +576,6 @@ nav {
   to   { transform: rotate(360deg); }
 }
 
-/* second layer — diagonal scan lines for texture */
 .card-holo::after {
   content: '';
   position: absolute; inset: 0;
@@ -456,7 +589,6 @@ nav {
   pointer-events: none;
 }
 
-/* star shimmer dots that pulse */
 .card-sparkle {
   position: absolute; inset: 0;
   border-radius: 8px;
@@ -478,7 +610,6 @@ nav {
   100% { opacity: 0;   transform: scale(0.5); }
 }
 
-/* glare streak that sweeps across */
 .card-glare {
   position: absolute; inset: 0;
   border-radius: 8px;
@@ -508,7 +639,7 @@ nav {
   100% { transform: translateX(480px) skewX(-10deg); opacity: 0; }
 }
 
-/* shadow blob below card that mimics float */
+/* shadow blob — now purple tinted */
 .card-shadow {
   position: absolute;
   bottom: 18px;
@@ -516,10 +647,11 @@ nav {
   transform: translateX(-50%);
   width: 145px;
   height: 22px;
-  background: radial-gradient(ellipse at center, rgba(80,40,200,0.5) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(120, 60, 255, 0.6) 0%, transparent 70%);
   border-radius: 50%;
   animation: shadowPulse 4.2s ease-in-out infinite;
-  filter: blur(6px);
+  filter: blur(8px);
+  z-index: 2;
 }
 @keyframes shadowPulse {
   0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.5; }
@@ -529,24 +661,24 @@ nav {
   100% { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.5; }
 }
 
-/* no-image fallback inside scene */
 .modal-no-img {
   font-family: var(--mono); font-size: 11px; color: #555;
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
+  z-index: 2;
 }
 
 /* name + chips float at bottom */
 .modal-left-foot {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  z-index: 2;
+  z-index: 3;
   padding: 56px 18px 20px;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    rgba(0,0,0,0.65) 35%,
-    rgba(0,0,0,0.95) 100%
+    rgba(8, 4, 24, 0.6) 35%,
+    rgba(8, 4, 24, 0.95) 100%
   );
 }
 
@@ -564,11 +696,11 @@ nav {
 .modal-chips { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip {
   display: inline-block; padding: 3px 7px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(160, 100, 255, 0.12);
+  border: 1px solid rgba(180, 130, 255, 0.22);
   border-radius: 4px;
   font-family: var(--mono); font-size: 9px;
-  color: rgba(255,255,255,0.48);
+  color: rgba(200, 180, 255, 0.6);
   letter-spacing: 0.03em;
   animation: textrise 0.36s var(--ease) 0.18s both;
 }
@@ -713,7 +845,6 @@ nav {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* drag handle */
   .modal-layout::before {
     content: '';
     display: block;
@@ -724,7 +855,6 @@ nav {
     flex-shrink: 0;
   }
 
-  /* left panel becomes a full-width hero strip */
   .modal-left {
     width: 100%;
     height: 160px;
@@ -742,7 +872,7 @@ nav {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     padding: 40px 16px 14px;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.92) 100%);
+    background: linear-gradient(to bottom, transparent 0%, rgba(8,4,24,0.7) 40%, rgba(8,4,24,0.95) 100%);
   }
 
   .modal-right {
@@ -760,7 +890,6 @@ nav {
     top: 10px; right: 10px;
   }
 
-  /* on mobile, kill the 3D scene and just show a flat image */
   .card-scene {
     display: none;
   }
@@ -780,7 +909,6 @@ nav {
 ::selection { background: var(--ink); color: var(--white); }
 `
 
-// Sparkle dot positions for the holographic card
 const SPARKLES = [
   { top: "18%", left: "22%", size: 3, dur: "1.8s", delay: "0s"   },
   { top: "35%", left: "72%", size: 2, dur: "2.4s", delay: "0.4s" },
@@ -790,6 +918,22 @@ const SPARKLES = [
   { top: "12%", left: "55%", size: 2, dur: "2.6s", delay: "0.6s" },
   { top: "88%", left: "18%", size: 3, dur: "1.7s", delay: "1.4s" },
   { top: "42%", left: "45%", size: 2, dur: "2.2s", delay: "0.3s" },
+]
+
+// Star positions for the nebula background
+const STARS = [
+  { top: "8%",  left: "15%", size: 1.5, opacity: 0.7, dur: "3.2s", delay: "0s"   },
+  { top: "14%", left: "72%", size: 1,   opacity: 0.5, dur: "4.1s", delay: "0.8s" },
+  { top: "28%", left: "88%", size: 2,   opacity: 0.8, dur: "2.8s", delay: "1.4s" },
+  { top: "42%", left: "8%",  size: 1,   opacity: 0.4, dur: "3.7s", delay: "0.3s" },
+  { top: "55%", left: "92%", size: 1.5, opacity: 0.6, dur: "4.5s", delay: "2.1s" },
+  { top: "68%", left: "35%", size: 1,   opacity: 0.5, dur: "3.0s", delay: "1.0s" },
+  { top: "80%", left: "78%", size: 2,   opacity: 0.7, dur: "2.5s", delay: "0.6s" },
+  { top: "90%", left: "20%", size: 1,   opacity: 0.4, dur: "4.8s", delay: "1.8s" },
+  { top: "22%", left: "48%", size: 1.5, opacity: 0.6, dur: "3.3s", delay: "2.5s" },
+  { top: "72%", left: "55%", size: 1,   opacity: 0.3, dur: "5.0s", delay: "0.4s" },
+  { top: "5%",  left: "60%", size: 2,   opacity: 0.8, dur: "2.9s", delay: "1.6s" },
+  { top: "48%", left: "25%", size: 1,   opacity: 0.45,dur: "4.2s", delay: "0.9s" },
 ]
 
 export default function App() {
@@ -968,10 +1112,42 @@ export default function App() {
 
             <div className="modal-layout">
 
-              {/* ── LEFT / IMAGE PANEL — 3D holo scene on desktop, flat on mobile ── */}
+              {/* ── LEFT / IMAGE PANEL ── */}
               <div className="modal-left">
 
-                {/* DESKTOP: 3D animated scene */}
+                {/* NEBULA BACKGROUND */}
+                <div className="nebula-bg" key={selected.name}>
+                  {/* Animated star field */}
+                  <div className="nebula-stars">
+                    {STARS.map((star, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          position: "absolute",
+                          top: star.top,
+                          left: star.left,
+                          width: star.size,
+                          height: star.size,
+                          borderRadius: "50%",
+                          background: "white",
+                          opacity: star.opacity,
+                          animation: `sparklePulse ${star.dur} ease-in-out ${star.delay} infinite`,
+                        }}
+                      />
+                    ))}
+                  </div>
+                  {/* Grain texture */}
+                  <div className="nebula-grain" />
+                  {/* Vignette */}
+                  <div className="nebula-vignette" />
+                  {/* Glowing orb */}
+                  <div className="nebula-orb" />
+                  {/* Aurora scan lines */}
+                  <div className="nebula-scan" />
+                  <div className="nebula-scan" />
+                </div>
+
+                {/* DESKTOP: 3D animated card scene (layered on top of nebula) */}
                 <div className="card-scene">
                   {selected.image ? (
                     <>
@@ -982,11 +1158,8 @@ export default function App() {
                           alt={selected.name}
                           className="card-img"
                         />
-                        {/* holographic rainbow shimmer */}
                         <div className="card-holo" />
-                        {/* glare streak */}
                         <div className="card-glare" />
-                        {/* sparkle dots */}
                         <div className="card-sparkle">
                           {SPARKLES.map((s, i) => (
                             <div
@@ -1010,7 +1183,7 @@ export default function App() {
                   )}
                 </div>
 
-                {/* MOBILE: flat image (card-scene is display:none on mobile via media query) */}
+                {/* MOBILE: flat image */}
                 {selected.image && (
                   <img
                     src={selected.image}
@@ -1020,12 +1193,12 @@ export default function App() {
                       position: "absolute", inset: 0,
                       width: "100%", height: "100%",
                       objectFit: "cover", objectPosition: "top center",
-                      display: "none", // shown via @media override below
+                      display: "none",
                     }}
                   />
                 )}
 
-                {/* name + chips float at bottom */}
+                {/* name + chips */}
                 <div className="modal-left-foot">
                   <div className="modal-card-name">{selected.name}</div>
                   <div className="modal-chips">
