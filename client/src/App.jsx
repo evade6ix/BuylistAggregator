@@ -273,7 +273,6 @@ nav {
 }
 @keyframes bdfadein { from { opacity: 0; } }
 
-/* centered card, fixed size, rounded corners */
 .modal {
   position: relative;
   width: min(880px, calc(100vw - 40px));
@@ -290,7 +289,6 @@ nav {
   to   { transform: scale(1)    translateY(0);    opacity: 1; }
 }
 
-/* close button floats top-right over the image */
 .modal-close-btn {
   position: absolute;
   top: 14px; right: 14px;
@@ -318,47 +316,227 @@ nav {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  background: #0a0a0a;
+  background: #080808;
 }
 
-/* image fills the entire left panel via absolute */
-.modal-img-container {
+/* =====================
+   CARD SCENE — 3D floating + holo
+   ===================== */
+.card-scene {
   position: absolute;
   inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  perspective: 900px;
+  /* dark ambient radial glow behind card */
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 52%, rgba(120,80,255,0.18) 0%, transparent 70%),
+    #080808;
 }
 
-.modal-card-img {
+/* subtle dust particles */
+.card-scene::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 75%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 65%, rgba(255,255,255,0.12) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,0.15) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 88%, rgba(255,255,255,0.1) 0%, transparent 100%);
+  pointer-events: none;
+  animation: dustdrift 6s ease-in-out infinite alternate;
+}
+@keyframes dustdrift {
+  from { transform: translateY(0px); opacity: 0.7; }
+  to   { transform: translateY(-5px); opacity: 1; }
+}
+
+/* floor reflection */
+.card-scene::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(120,80,255,0.06) 60%, rgba(80,120,255,0.04) 100%);
+  pointer-events: none;
+}
+
+.card-wrapper {
+  position: relative;
+  width: 148px;
+  /* aspect-ratio 2.5/3.5 */
+  height: 207px;
+  border-radius: 8px;
+  transform-style: preserve-3d;
+  animation: cardFloat 4.2s ease-in-out infinite, cardEntrance 0.7s var(--ease) both;
+  will-change: transform;
+  filter: drop-shadow(0 28px 40px rgba(0,0,0,0.65)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+}
+
+@keyframes cardEntrance {
+  from {
+    transform: translateY(30px) rotateX(30deg) rotateY(-20deg) scale(0.85);
+    opacity: 0;
+    filter: blur(6px) drop-shadow(0 28px 40px rgba(0,0,0,0.65));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0) drop-shadow(0 28px 40px rgba(0,0,0,0.65)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  }
+}
+
+@keyframes cardFloat {
+  0%   { transform: translateY(0px)   rotateX(4deg)  rotateY(-6deg)  rotateZ(0.5deg); }
+  25%  { transform: translateY(-9px)  rotateX(7deg)  rotateY(5deg)   rotateZ(-0.5deg); }
+  50%  { transform: translateY(-14px) rotateX(3deg)  rotateY(8deg)   rotateZ(0.8deg); }
+  75%  { transform: translateY(-7px)  rotateX(-2deg) rotateY(2deg)   rotateZ(-0.3deg); }
+  100% { transform: translateY(0px)   rotateX(4deg)  rotateY(-6deg)  rotateZ(0.5deg); }
+}
+
+.card-img {
   width: 100%; height: 100%;
   object-fit: cover;
   object-position: top center;
+  border-radius: 8px;
   display: block;
-  animation: imgreveal 0.45s var(--ease) both;
-}
-@keyframes imgreveal {
-  from { transform: scale(1.07); opacity: 0; filter: blur(5px); }
-  to   { transform: scale(1);    opacity: 1; filter: blur(0);   }
 }
 
-/* shine sweep across the image on open */
-.modal-img-container::after {
+/* holographic overlay — rainbow shimmer that sweeps in a loop */
+.card-holo {
+  position: absolute; inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  opacity: 0.45;
+}
+
+.card-holo::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    rgba(255,0,128,0)   0deg,
+    rgba(255,0,128,0.6) 30deg,
+    rgba(255,200,0,0.5) 60deg,
+    rgba(0,255,180,0.5) 100deg,
+    rgba(0,180,255,0.5) 140deg,
+    rgba(120,0,255,0.5) 180deg,
+    rgba(255,0,128,0.5) 220deg,
+    rgba(255,200,0,0.4) 260deg,
+    rgba(0,255,180,0.4) 300deg,
+    rgba(0,180,255,0.3) 330deg,
+    rgba(255,0,128,0)   360deg
+  );
+  animation: holoSpin 3.8s linear infinite;
+  transform-origin: center center;
+}
+
+@keyframes holoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* second layer — diagonal scan lines for texture */
+.card-holo::after {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.08) 50%, transparent 80%);
-  animation: shinesweep 0.75s var(--ease) 0.1s both;
+  background: repeating-linear-gradient(
+    110deg,
+    transparent               0px,
+    transparent               3px,
+    rgba(255,255,255,0.03)    3px,
+    rgba(255,255,255,0.03)    4px
+  );
   pointer-events: none;
 }
-@keyframes shinesweep {
-  from { transform: translateX(-140%); }
-  to   { transform: translateX(200%); }
+
+/* star shimmer dots that pulse */
+.card-sparkle {
+  position: absolute; inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  overflow: hidden;
 }
 
+.sparkle-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: sparklePulse var(--dur, 2s) ease-in-out var(--delay, 0s) infinite;
+  opacity: 0;
+}
+@keyframes sparklePulse {
+  0%   { opacity: 0;   transform: scale(0.5); }
+  40%  { opacity: 0.9; transform: scale(1.2); }
+  60%  { opacity: 0.8; transform: scale(1);   }
+  100% { opacity: 0;   transform: scale(0.5); }
+}
+
+/* glare streak that sweeps across */
+.card-glare {
+  position: absolute; inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.card-glare::before {
+  content: '';
+  position: absolute;
+  top: -100%; left: -60%;
+  width: 50%; height: 300%;
+  background: linear-gradient(
+    105deg,
+    transparent 20%,
+    rgba(255,255,255,0.12) 45%,
+    rgba(255,255,255,0.18) 50%,
+    rgba(255,255,255,0.12) 55%,
+    transparent 80%
+  );
+  animation: glareSweep 3.4s ease-in-out infinite;
+}
+@keyframes glareSweep {
+  0%   { transform: translateX(0)   skewX(-10deg); opacity: 0; }
+  10%  { opacity: 1; }
+  50%  { transform: translateX(480px) skewX(-10deg); opacity: 1; }
+  60%  { opacity: 0; }
+  100% { transform: translateX(480px) skewX(-10deg); opacity: 0; }
+}
+
+/* shadow blob below card that mimics float */
+.card-shadow {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 18px;
+  background: radial-gradient(ellipse at center, rgba(80,40,200,0.5) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: shadowPulse 4.2s ease-in-out infinite;
+  filter: blur(6px);
+}
+@keyframes shadowPulse {
+  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.5; }
+  25%  { transform: translateX(-50%) scaleX(0.82) scaleY(0.7);  opacity: 0.3; }
+  50%  { transform: translateX(-50%) scaleX(0.72) scaleY(0.55); opacity: 0.2; }
+  75%  { transform: translateX(-50%) scaleX(0.85) scaleY(0.72); opacity: 0.3; }
+  100% { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.5; }
+}
+
+/* no-image fallback inside scene */
 .modal-no-img {
+  font-family: var(--mono); font-size: 11px; color: #555;
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 11px; color: #555;
 }
 
-/* name + chips float over gradient at the bottom of the image */
+/* name + chips float at bottom */
 .modal-left-foot {
   position: absolute;
   bottom: 0; left: 0; right: 0;
@@ -581,10 +759,38 @@ nav {
   .modal-close-btn {
     top: 10px; right: 10px;
   }
+
+  /* on mobile, kill the 3D scene and just show a flat image */
+  .card-scene {
+    display: none;
+  }
+  .modal-img-container {
+    display: block;
+    position: absolute;
+    inset: 0;
+  }
+  .modal-card-img-mobile {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+  }
 }
 
 ::selection { background: var(--ink); color: var(--white); }
 `
+
+// Sparkle dot positions for the holographic card
+const SPARKLES = [
+  { top: "18%", left: "22%", size: 3, dur: "1.8s", delay: "0s"   },
+  { top: "35%", left: "72%", size: 2, dur: "2.4s", delay: "0.4s" },
+  { top: "62%", left: "30%", size: 4, dur: "1.6s", delay: "0.9s" },
+  { top: "78%", left: "60%", size: 2, dur: "2.1s", delay: "0.2s" },
+  { top: "50%", left: "85%", size: 3, dur: "1.9s", delay: "1.1s" },
+  { top: "12%", left: "55%", size: 2, dur: "2.6s", delay: "0.6s" },
+  { top: "88%", left: "18%", size: 3, dur: "1.7s", delay: "1.4s" },
+  { top: "42%", left: "45%", size: 2, dur: "2.2s", delay: "0.3s" },
+]
 
 export default function App() {
   const [query, setQuery] = useState("")
@@ -618,20 +824,14 @@ export default function App() {
 
   const cards = useMemo(() => {
     const list = Array.isArray(data?.cards) ? [...data.cards] : []
-
     return list.sort((a, b) => {
       const aCash = Math.max(...(a.stores || []).map(s => Number(s.cashPrice || 0)), 0)
       const bCash = Math.max(...(b.stores || []).map(s => Number(s.cashPrice || 0)), 0)
-
       const aCredit = Math.max(...(a.stores || []).map(s => Number(s.creditPrice || 0)), 0)
       const bCredit = Math.max(...(b.stores || []).map(s => Number(s.creditPrice || 0)), 0)
-
       if (bCash !== aCash) return bCash - aCash
       if (bCredit !== aCredit) return bCredit - aCredit
-      if ((b.buylistCount || 0) !== (a.buylistCount || 0)) {
-        return (b.buylistCount || 0) - (a.buylistCount || 0)
-      }
-
+      if ((b.buylistCount || 0) !== (a.buylistCount || 0)) return (b.buylistCount || 0) - (a.buylistCount || 0)
       return String(a.name || "").localeCompare(String(b.name || ""))
     })
   }, [data])
@@ -648,7 +848,6 @@ export default function App() {
     () => Math.max(...(selected?.stores || []).map(s => Number(s.cashPrice || 0)), 0),
     [selected]
   )
-
   const bestCredit = useMemo(
     () => Math.max(...(selected?.stores || []).map(s => Number(s.creditPrice || 0)), 0),
     [selected]
@@ -724,7 +923,6 @@ export default function App() {
         {cards.map((card, i) => {
           const bCash = Math.max(...(card.stores || []).map(s => Number(s.cashPrice || 0)), 0)
           const bCredit = Math.max(...(card.stores || []).map(s => Number(s.creditPrice || 0)), 0)
-
           return (
             <button
               key={card.key || `${card.name}-${i}`}
@@ -742,18 +940,15 @@ export default function App() {
                   <div className="overlay-credit">Credit {money(bCredit)}</div>
                 </div>
               </div>
-
               <div className="tile-body">
                 <div className="tile-name">{card.name}</div>
                 <div className="tile-sub">
                   {[card.setName, card.rarity].filter(Boolean).join(" · ")}
                 </div>
-
                 <div className="tile-foot">
                   <span className="tile-stores-count">
                     {card.buylistCount || 0} store{(card.buylistCount || 0) !== 1 ? "s" : ""}
                   </span>
-
                   <div className="tile-price-stack">
                     <span className="tile-best-cash">Cash {money(bCash)}</span>
                     <span className="tile-best-credit">Credit {money(bCredit)}</span>
@@ -769,26 +964,68 @@ export default function App() {
         <div className="modal-backdrop" onClick={() => setSelected(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
 
-            {/* floating close button, top-right, over the image */}
             <button className="modal-close-btn" onClick={() => setSelected(null)}>×</button>
 
             <div className="modal-layout">
 
-              {/* ── LEFT / IMAGE PANEL ── */}
+              {/* ── LEFT / IMAGE PANEL — 3D holo scene on desktop, flat on mobile ── */}
               <div className="modal-left">
-                <div className="modal-img-container">
-                  {selected.image
-                    ? <img
-                        key={selected.image}
-                        src={selected.image}
-                        alt={selected.name}
-                        className="modal-card-img"
-                      />
-                    : <div className="modal-no-img">NO IMAGE</div>
-                  }
+
+                {/* DESKTOP: 3D animated scene */}
+                <div className="card-scene">
+                  {selected.image ? (
+                    <>
+                      <div className="card-shadow" />
+                      <div className="card-wrapper" key={selected.image}>
+                        <img
+                          src={selected.image}
+                          alt={selected.name}
+                          className="card-img"
+                        />
+                        {/* holographic rainbow shimmer */}
+                        <div className="card-holo" />
+                        {/* glare streak */}
+                        <div className="card-glare" />
+                        {/* sparkle dots */}
+                        <div className="card-sparkle">
+                          {SPARKLES.map((s, i) => (
+                            <div
+                              key={i}
+                              className="sparkle-dot"
+                              style={{
+                                top: s.top,
+                                left: s.left,
+                                width: s.size,
+                                height: s.size,
+                                "--dur": s.dur,
+                                "--delay": s.delay,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="modal-no-img">NO IMAGE</div>
+                  )}
                 </div>
 
-                {/* name + chips float over the gradient at the bottom */}
+                {/* MOBILE: flat image (card-scene is display:none on mobile via media query) */}
+                {selected.image && (
+                  <img
+                    src={selected.image}
+                    alt={selected.name}
+                    className="modal-card-img-mobile"
+                    style={{
+                      position: "absolute", inset: 0,
+                      width: "100%", height: "100%",
+                      objectFit: "cover", objectPosition: "top center",
+                      display: "none", // shown via @media override below
+                    }}
+                  />
+                )}
+
+                {/* name + chips float at bottom */}
                 <div className="modal-left-foot">
                   <div className="modal-card-name">{selected.name}</div>
                   <div className="modal-chips">
