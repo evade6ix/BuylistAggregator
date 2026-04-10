@@ -273,6 +273,7 @@ nav {
 }
 @keyframes bdfadein { from { opacity: 0; } }
 
+/* centered card, fixed size, rounded corners */
 .modal {
   position: relative;
   width: min(880px, calc(100vw - 40px));
@@ -286,9 +287,10 @@ nav {
 }
 @keyframes modalpopin {
   from { transform: scale(0.94) translateY(16px); opacity: 0; }
-  to   { transform: scale(1) translateY(0); opacity: 1; }
+  to   { transform: scale(1)    translateY(0);    opacity: 1; }
 }
 
+/* close button floats top-right over the image */
 .modal-close-btn {
   position: absolute;
   top: 14px; right: 14px;
@@ -316,39 +318,13 @@ nav {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 40%),
-    linear-gradient(180deg, #101010 0%, #050505 100%);
-  perspective: 1200px;
+  background: #0a0a0a;
 }
 
+/* image fills the entire left panel via absolute */
 .modal-img-container {
   position: absolute;
   inset: 0;
-  overflow: hidden;
-  transform-style: preserve-3d;
-}
-
-.modal-img-container::before {
-  content: '';
-  position: absolute;
-  inset: -20%;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  background:
-    radial-gradient(
-      circle at var(--glow-x, 50%) var(--glow-y, 50%),
-      rgba(255,255,255,0.18) 0%,
-      rgba(255,255,255,0.08) 18%,
-      rgba(255,255,255,0.02) 32%,
-      transparent 52%
-    );
-}
-
-.modal-left:hover .modal-img-container::before {
-  opacity: 1;
 }
 
 .modal-card-img {
@@ -356,32 +332,20 @@ nav {
   object-fit: cover;
   object-position: top center;
   display: block;
-  transform:
-    rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg))
-    scale(1.02);
-  transform-origin: center center;
-  transition: transform 0.18s ease, filter 0.18s ease;
   animation: imgreveal 0.45s var(--ease) both;
-  will-change: transform, filter;
-}
-.modal-left:hover .modal-card-img {
-  filter: saturate(1.08) contrast(1.03) brightness(1.02);
 }
 @keyframes imgreveal {
   from { transform: scale(1.07); opacity: 0; filter: blur(5px); }
-  to   { opacity: 1; filter: blur(0); }
+  to   { transform: scale(1);    opacity: 1; filter: blur(0);   }
 }
 
+/* shine sweep across the image on open */
 .modal-img-container::after {
   content: '';
   position: absolute; inset: 0;
-  background:
-    linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.10) 50%, transparent 80%),
-    linear-gradient(to top, rgba(255,255,255,0.04), transparent 35%);
-  animation: shinesweep 0.85s var(--ease) 0.1s both;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.08) 50%, transparent 80%);
+  animation: shinesweep 0.75s var(--ease) 0.1s both;
   pointer-events: none;
-  z-index: 3;
 }
 @keyframes shinesweep {
   from { transform: translateX(-140%); }
@@ -394,10 +358,11 @@ nav {
   font-family: var(--mono); font-size: 11px; color: #555;
 }
 
+/* name + chips float over gradient at the bottom of the image */
 .modal-left-foot {
   position: absolute;
   bottom: 0; left: 0; right: 0;
-  z-index: 4;
+  z-index: 2;
   padding: 56px 18px 20px;
   background: linear-gradient(
     to bottom,
@@ -415,7 +380,7 @@ nav {
 }
 @keyframes textrise {
   from { transform: translateY(8px); opacity: 0; }
-  to   { transform: translateY(0); opacity: 1; }
+  to   { transform: translateY(0);   opacity: 1; }
 }
 
 .modal-chips { display: flex; flex-wrap: wrap; gap: 4px; }
@@ -561,7 +526,7 @@ nav {
 
   @keyframes sheetslideup {
     from { transform: translateY(60px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
+    to   { transform: translateY(0);    opacity: 1; }
   }
 
   .modal-layout {
@@ -570,6 +535,7 @@ nav {
     -webkit-overflow-scrolling: touch;
   }
 
+  /* drag handle */
   .modal-layout::before {
     content: '';
     display: block;
@@ -580,11 +546,11 @@ nav {
     flex-shrink: 0;
   }
 
+  /* left panel becomes a full-width hero strip */
   .modal-left {
     width: 100%;
     height: 160px;
     flex-shrink: 0;
-    perspective: none;
   }
 
   .modal-img-container {
@@ -592,16 +558,6 @@ nav {
     inset: 0;
     width: 100%;
     height: 100%;
-  }
-
-  .modal-card-img {
-    transform: none !important;
-    transition: none;
-    filter: none !important;
-  }
-
-  .modal-img-container::before {
-    display: none;
   }
 
   .modal-left-foot {
@@ -637,7 +593,6 @@ export default function App() {
   const [error, setError] = useState("")
   const [data, setData] = useState(null)
   const [selected, setSelected] = useState(null)
-  const [imgFx, setImgFx] = useState({ rx: 0, ry: 0, glowX: 50, glowY: 50 })
   const inputRef = useRef(null)
 
   useEffect(() => { inputRef.current?.focus() }, [])
@@ -659,31 +614,6 @@ export default function App() {
     } finally {
       setLoading(false)
     }
-  }
-
-  function handleDrawerImageMove(e) {
-    if (window.innerWidth <= 640) return
-
-    const rect = e.currentTarget.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
-
-    const px = x / rect.width
-    const py = y / rect.height
-
-    const ry = (px - 0.5) * 10
-    const rx = (0.5 - py) * 10
-
-    setImgFx({
-      rx,
-      ry,
-      glowX: px * 100,
-      glowY: py * 100,
-    })
-  }
-
-  function resetDrawerImageFx() {
-    setImgFx({ rx: 0, ry: 0, glowX: 50, glowY: 50 })
   }
 
   const cards = useMemo(() => {
@@ -838,46 +768,40 @@ export default function App() {
       {selected && (
         <div className="modal-backdrop" onClick={() => setSelected(null)}>
           <div className="modal" onClick={e => e.stopPropagation()}>
+
+            {/* floating close button, top-right, over the image */}
             <button className="modal-close-btn" onClick={() => setSelected(null)}>×</button>
 
             <div className="modal-layout">
+
+              {/* ── LEFT / IMAGE PANEL ── */}
               <div className="modal-left">
-                <div
-                  className="modal-img-container"
-                  onMouseMove={handleDrawerImageMove}
-                  onMouseLeave={resetDrawerImageFx}
-                  style={{
-                    "--rx": `${imgFx.rx}deg`,
-                    "--ry": `${imgFx.ry}deg`,
-                    "--glow-x": `${imgFx.glowX}%`,
-                    "--glow-y": `${imgFx.glowY}%`,
-                  }}
-                >
+                <div className="modal-img-container">
                   {selected.image
-                    ? (
-                      <img
+                    ? <img
                         key={selected.image}
                         src={selected.image}
                         alt={selected.name}
                         className="modal-card-img"
                       />
-                    )
                     : <div className="modal-no-img">NO IMAGE</div>
                   }
                 </div>
 
+                {/* name + chips float over the gradient at the bottom */}
                 <div className="modal-left-foot">
                   <div className="modal-card-name">{selected.name}</div>
                   <div className="modal-chips">
                     {selected.productLine && <span className="chip">{selected.productLine}</span>}
-                    {selected.setName && <span className="chip">{selected.setName}</span>}
-                    {selected.rarity && <span className="chip">{selected.rarity}</span>}
-                    {selected.finish && <span className="chip">{selected.finish}</span>}
-                    {selected.cardCode && <span className="chip">{selected.cardCode}</span>}
+                    {selected.setName      && <span className="chip">{selected.setName}</span>}
+                    {selected.rarity       && <span className="chip">{selected.rarity}</span>}
+                    {selected.finish       && <span className="chip">{selected.finish}</span>}
+                    {selected.cardCode     && <span className="chip">{selected.cardCode}</span>}
                   </div>
                 </div>
               </div>
 
+              {/* ── RIGHT / STORES PANEL ── */}
               <div className="modal-right">
                 <div className="modal-right-head">
                   <div className="modal-right-title">Buylist Offers</div>
@@ -904,16 +828,8 @@ export default function App() {
                         <div className={`rank-badge${idx === 0 ? " first" : ""}`}>{idx + 1}</div>
                         <span className="store-entry-name">{store.storeName}</span>
                         <div className="store-entry-links">
-                          {store.storeBaseUrl && (
-                            <a className="entry-link" href={store.storeBaseUrl} target="_blank" rel="noreferrer">
-                              Store ↗
-                            </a>
-                          )}
-                          {store.storeBuylistUrl && (
-                            <a className="entry-link" href={store.storeBuylistUrl} target="_blank" rel="noreferrer">
-                              Buylist ↗
-                            </a>
-                          )}
+                          {store.storeBaseUrl    && <a className="entry-link" href={store.storeBaseUrl}    target="_blank" rel="noreferrer">Store ↗</a>}
+                          {store.storeBuylistUrl && <a className="entry-link" href={store.storeBuylistUrl} target="_blank" rel="noreferrer">Buylist ↗</a>}
                         </div>
                       </div>
 
@@ -940,13 +856,12 @@ export default function App() {
                             <div className="vcell vhead-lbl vnum">Credit</div>
                             <div className="vcell vhead-lbl vnum">Retail</div>
                           </div>
-
                           {(store.variants || []).map((v, vi) => (
                             <div key={`${v.title}-${vi}`} className="vrow">
                               <div className="vcell vname">{v.title}</div>
                               <div className="vcell vcash vnum">{money(v.cashPrice)}</div>
                               <div className="vcell vnum">{money(v.creditPrice)}</div>
-                              <div className="vcell vnum">{money(v.marketPrice)}</div>
+                              <div className="vcell vnum">{money(v.retailPrice)}</div>
                             </div>
                           ))}
                         </div>
@@ -955,6 +870,7 @@ export default function App() {
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
         </div>
