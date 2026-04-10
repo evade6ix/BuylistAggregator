@@ -43,7 +43,6 @@ body {
   min-height: 100vh;
 }
 
-/* NAV */
 nav {
   position: sticky; top: 0; z-index: 50;
   background: rgba(245,244,241,0.92);
@@ -52,888 +51,332 @@ nav {
   display: flex; align-items: center;
   padding: 0 28px; height: 54px; gap: 20px;
 }
-
-.nav-logo {
-  font-family: var(--display);
-  font-size: 16px; font-weight: 800;
-  color: var(--ink); text-decoration: none;
-  letter-spacing: -0.5px; flex-shrink: 0;
-}
+.nav-logo { font-family: var(--display); font-size: 16px; font-weight: 800; color: var(--ink); text-decoration: none; letter-spacing: -0.5px; flex-shrink: 0; }
 .nav-logo span { color: var(--accent); }
-
 .nav-sep { width: 1px; height: 20px; background: var(--rule); flex-shrink: 0; }
-
-.game-scroll {
-  display: flex; gap: 2px;
-  overflow-x: auto; flex: 1;
-  scrollbar-width: none;
-  mask-image: linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent);
-  padding: 0 12px;
-}
+.game-scroll { display: flex; gap: 2px; overflow-x: auto; flex: 1; scrollbar-width: none; mask-image: linear-gradient(to right, transparent, black 20px, black calc(100% - 20px), transparent); padding: 0 12px; }
 .game-scroll::-webkit-scrollbar { display: none; }
-
-.game-tab {
-  flex-shrink: 0; padding: 5px 13px; border-radius: 6px;
-  font-family: var(--sans); font-size: 12.5px; font-weight: 500;
-  color: var(--mid); background: transparent;
-  border: none; cursor: pointer;
-  transition: color 0.12s, background 0.12s;
-  white-space: nowrap;
-}
+.game-tab { flex-shrink: 0; padding: 5px 13px; border-radius: 6px; font-family: var(--sans); font-size: 12.5px; font-weight: 500; color: var(--mid); background: transparent; border: none; cursor: pointer; transition: color 0.12s, background 0.12s; white-space: nowrap; }
 .game-tab:hover { color: var(--ink); background: rgba(0,0,0,0.04); }
 .game-tab.active { color: var(--white); background: var(--ink); }
 
-/* SEARCH */
-.search-wrap {
-  border-bottom: 1px solid var(--rule);
-  background: var(--white);
-  padding: 0 28px;
-}
-.search-form {
-  display: flex; align-items: center; gap: 0;
-}
-.search-icon {
-  color: #bbb; flex-shrink: 0; display: flex; align-items: center;
-  padding-right: 16px;
-}
-.search-input {
-  flex: 1; border: none; outline: none;
-  font-family: var(--display);
-  font-size: clamp(24px, 3.5vw, 40px);
-  font-weight: 700; color: var(--ink);
-  background: transparent;
-  padding: 24px 0;
-  letter-spacing: -1.5px;
-  caret-color: var(--accent);
-}
+.search-wrap { border-bottom: 1px solid var(--rule); background: var(--white); padding: 0 28px; }
+.search-form { display: flex; align-items: center; gap: 0; }
+.search-icon { color: #bbb; flex-shrink: 0; display: flex; align-items: center; padding-right: 16px; }
+.search-input { flex: 1; border: none; outline: none; font-family: var(--display); font-size: clamp(24px, 3.5vw, 40px); font-weight: 700; color: var(--ink); background: transparent; padding: 24px 0; letter-spacing: -1.5px; caret-color: var(--accent); }
 .search-input::placeholder { color: #d0cdc8; }
-
-.search-btn {
-  flex-shrink: 0; height: 42px; padding: 0 22px;
-  background: var(--ink); color: var(--white);
-  font-family: var(--sans); font-size: 13px; font-weight: 600;
-  border: none; border-radius: 7px;
-  cursor: pointer; letter-spacing: 0.01em;
-  transition: background 0.12s, transform 0.08s;
-  margin-left: 20px;
-}
+.search-btn { flex-shrink: 0; height: 42px; padding: 0 22px; background: var(--ink); color: var(--white); font-family: var(--sans); font-size: 13px; font-weight: 600; border: none; border-radius: 7px; cursor: pointer; letter-spacing: 0.01em; transition: background 0.12s, transform 0.08s; margin-left: 20px; }
 .search-btn:hover { background: #222; }
 .search-btn:active { transform: scale(0.97); }
 .search-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-/* RESULTS META */
-.results-meta-bar {
-  padding: 10px 28px;
-  border-bottom: 1px solid var(--rule);
-  display: flex; align-items: center; gap: 16px;
-  min-height: 41px;
-}
-.results-label {
-  font-family: var(--mono); font-size: 11.5px; color: var(--mid);
-}
+.results-meta-bar { padding: 10px 28px; border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 16px; min-height: 41px; }
+.results-label { font-family: var(--mono); font-size: 11.5px; color: var(--mid); }
 .results-label b { color: var(--ink); font-weight: 400; }
+.loading-track { width: 160px; height: 2px; background: var(--rule); border-radius: 1px; overflow: hidden; }
+.loading-fill { height: 100%; background: var(--ink); border-radius: 1px; animation: sweep 0.9s ease-in-out infinite; }
+@keyframes sweep { 0% { width:0%; margin-left:0; } 50% { width:55%; margin-left:22%; } 100% { width:0%; margin-left:100%; } }
+.error-strip { padding: 11px 28px; background: #fff5f5; border-bottom: 1px solid #ffd4d0; font-family: var(--mono); font-size: 12px; color: #c0392b; }
 
-.loading-track {
-  width: 160px; height: 2px;
-  background: var(--rule); border-radius: 1px; overflow: hidden;
-}
-.loading-fill {
-  height: 100%; background: var(--ink); border-radius: 1px;
-  animation: sweep 0.9s ease-in-out infinite;
-}
-@keyframes sweep {
-  0%   { width: 0%;   margin-left: 0;    }
-  50%  { width: 55%;  margin-left: 22%;  }
-  100% { width: 0%;   margin-left: 100%; }
-}
-
-.error-strip {
-  padding: 11px 28px;
-  background: #fff5f5; border-bottom: 1px solid #ffd4d0;
-  font-family: var(--mono); font-size: 12px; color: #c0392b;
-}
-
-/* GRID */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-  border-left: 1px solid var(--rule);
-}
-
-.card-tile {
-  position: relative; cursor: pointer;
-  border-right: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  background: var(--white);
-  overflow: hidden;
-  outline: none; border-top: none; border-left: none;
-  text-align: left; color: inherit; font-family: inherit;
-  display: flex; flex-direction: column;
-  transition: background 0.15s;
-}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(195px, 1fr)); border-left: 1px solid var(--rule); }
+.card-tile { position: relative; cursor: pointer; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); background: var(--white); overflow: hidden; outline: none; border-top: none; border-left: none; text-align: left; color: inherit; font-family: inherit; display: flex; flex-direction: column; transition: background 0.15s; }
 .card-tile:hover { background: #fafaf8; }
-
-.tile-img-wrap {
-  width: 100%; aspect-ratio: 2.5/3.5;
-  background: #edeae4; overflow: hidden; position: relative;
-  flex-shrink: 0;
-}
-.tile-img {
-  width: 100%; height: 100%; object-fit: cover;
-  object-position: top center; display: block;
-  transition: transform 0.5s var(--ease);
-}
+.tile-img-wrap { width: 100%; aspect-ratio: 2.5/3.5; background: #edeae4; overflow: hidden; position: relative; flex-shrink: 0; }
+.tile-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; transition: transform 0.5s var(--ease); }
 .card-tile:hover .tile-img { transform: scale(1.04); }
-
-.tile-no-img {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 10px; color: #c0bdb8;
-  letter-spacing: 0.1em;
-}
-
-.tile-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.3) 50%, transparent 100%);
-  opacity: 0; transition: opacity 0.28s var(--ease);
-  display: flex; flex-direction: column;
-  justify-content: flex-end; padding: 14px;
-}
+.tile-no-img { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 10px; color: #c0bdb8; letter-spacing: 0.1em; }
+.tile-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.3) 50%, transparent 100%); opacity: 0; transition: opacity 0.28s var(--ease); display: flex; flex-direction: column; justify-content: flex-end; padding: 14px; }
 .card-tile:hover .tile-overlay { opacity: 1; }
-
-.overlay-lbl {
-  font-family: var(--mono); font-size: 8.5px; color: rgba(255,255,255,0.45);
-  text-transform: uppercase; letter-spacing: 0.13em; margin-bottom: 3px;
-}
-.overlay-cash {
-  font-family: var(--display); font-size: 20px; font-weight: 800;
-  color: #fff; letter-spacing: -0.5px; line-height: 1;
-}
-.overlay-credit {
-  font-family: var(--mono); font-size: 10.5px; color: rgba(255,255,255,0.5);
-  margin-top: 4px;
-}
-
-.tile-body {
-  padding: 11px 13px 13px;
-  display: flex; flex-direction: column; gap: 4px; flex: 1;
-}
-.tile-name {
-  font-family: var(--display); font-size: 12.5px; font-weight: 700;
-  color: var(--ink); letter-spacing: -0.2px; line-height: 1.25;
-}
-.tile-sub {
-  font-family: var(--mono); font-size: 10px; color: var(--mid);
-}
-.tile-foot {
-  margin-top: auto; padding-top: 8px;
-  display: flex; align-items: flex-end; justify-content: space-between;
-  gap: 10px;
-  border-top: 1px solid var(--rule);
-}
-.tile-stores-count {
-  font-family: var(--mono); font-size: 10px; color: var(--mid);
-}
-.tile-price-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
-}
-.tile-best-cash {
-  font-family: var(--mono);
-  font-size: 11.5px;
-  color: var(--cash);
-}
-.tile-best-credit {
-  font-family: var(--mono);
-  font-size: 10.5px;
-  color: var(--credit);
-}
-
-/* EMPTY */
-.empty-state {
-  grid-column: 1 / -1;
-  padding: 100px 28px; text-align: center;
-}
-.empty-state h2 {
-  font-family: var(--display); font-size: 22px; font-weight: 700;
-  color: var(--ink-3); margin-bottom: 8px; letter-spacing: -0.5px;
-}
+.overlay-lbl { font-family: var(--mono); font-size: 8.5px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.13em; margin-bottom: 3px; }
+.overlay-cash { font-family: var(--display); font-size: 20px; font-weight: 800; color: #fff; letter-spacing: -0.5px; line-height: 1; }
+.overlay-credit { font-family: var(--mono); font-size: 10.5px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.tile-body { padding: 11px 13px 13px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.tile-name { font-family: var(--display); font-size: 12.5px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; line-height: 1.25; }
+.tile-sub { font-family: var(--mono); font-size: 10px; color: var(--mid); }
+.tile-foot { margin-top: auto; padding-top: 8px; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; border-top: 1px solid var(--rule); }
+.tile-stores-count { font-family: var(--mono); font-size: 10px; color: var(--mid); }
+.tile-price-stack { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.tile-best-cash { font-family: var(--mono); font-size: 11.5px; color: var(--cash); }
+.tile-best-credit { font-family: var(--mono); font-size: 10.5px; color: var(--credit); }
+.empty-state { grid-column: 1/-1; padding: 100px 28px; text-align: center; }
+.empty-state h2 { font-family: var(--display); font-size: 22px; font-weight: 700; color: var(--ink-3); margin-bottom: 8px; letter-spacing: -0.5px; }
 .empty-state p { font-size: 14px; color: var(--mid); }
 
 /* =====================
-   MODAL — DESKTOP
+   MODAL
    ===================== */
-.modal-backdrop {
-  position: fixed; inset: 0; z-index: 100;
-  background: rgba(8,8,8,0.62);
-  display: flex; align-items: center; justify-content: center;
-  animation: bdfadein 0.2s ease;
-}
+.modal-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(8,8,8,0.62); display: flex; align-items: center; justify-content: center; animation: bdfadein 0.2s ease; }
 @keyframes bdfadein { from { opacity: 0; } }
-
-.modal {
-  position: relative;
-  width: min(880px, calc(100vw - 40px));
-  height: min(600px, calc(100vh - 60px));
-  background: var(--white);
-  border-radius: 16px;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-  animation: modalpopin 0.28s var(--ease);
-  box-shadow: 0 40px 120px rgba(0,0,0,0.32), 0 4px 16px rgba(0,0,0,0.1);
-}
-@keyframes modalpopin {
-  from { transform: scale(0.94) translateY(16px); opacity: 0; }
-  to   { transform: scale(1)    translateY(0);    opacity: 1; }
-}
-
-.modal-close-btn {
-  position: absolute;
-  top: 14px; right: 14px;
-  z-index: 20;
-  width: 30px; height: 30px;
-  background: rgba(10,10,10,0.5);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.14);
-  border-radius: 50%;
-  cursor: pointer;
-  color: rgba(255,255,255,0.75);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 17px; line-height: 1;
-  transition: background 0.15s, color 0.15s;
-}
+.modal { position: relative; width: min(880px, calc(100vw - 40px)); height: min(600px, calc(100vh - 60px)); background: var(--white); border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; animation: modalpopin 0.28s var(--ease); box-shadow: 0 40px 120px rgba(0,0,0,0.32), 0 4px 16px rgba(0,0,0,0.1); }
+@keyframes modalpopin { from { transform: scale(0.94) translateY(16px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.modal-close-btn { position: absolute; top: 14px; right: 14px; z-index: 20; width: 30px; height: 30px; background: rgba(10,10,10,0.5); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.14); border-radius: 50%; cursor: pointer; color: rgba(255,255,255,0.75); display: flex; align-items: center; justify-content: center; font-size: 17px; line-height: 1; transition: background 0.15s, color 0.15s; }
 .modal-close-btn:hover { background: rgba(10,10,10,0.8); color: #fff; }
+.modal-layout { display: flex; flex: 1; overflow: hidden; min-height: 0; }
 
-.modal-layout {
-  display: flex; flex: 1; overflow: hidden; min-height: 0;
-}
-
-/* ── LEFT IMAGE PANEL ── */
+/* ── LEFT PANEL — nebula IS the background ── */
 .modal-left {
-  width: 320px;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-/* =====================
-   NEBULA BACKGROUND
-   ===================== */
-.nebula-bg {
-  position: absolute;
-  inset: 0;
-  /* Deep space base */
-  background: #0d0a1a;
-  overflow: hidden;
-}
-
-/* Primary nebula cloud layers */
-.nebula-bg::before {
-  content: '';
-  position: absolute;
-  inset: -40%;
-  width: 180%; height: 180%;
+  width: 320px; flex-shrink: 0;
+  position: relative; overflow: hidden;
+  /* Deep-space nebula painted directly on this element */
   background:
-    radial-gradient(ellipse 80% 60% at 30% 40%, rgba(120, 40, 200, 0.55) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 80% at 75% 65%, rgba(20, 80, 200, 0.45) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 50% at 55% 20%, rgba(200, 50, 120, 0.35) 0%, transparent 45%),
-    radial-gradient(ellipse 70% 40% at 20% 80%, rgba(40, 160, 180, 0.3) 0%, transparent 50%),
-    radial-gradient(ellipse 40% 60% at 85% 25%, rgba(80, 200, 140, 0.2) 0%, transparent 40%);
-  animation: nebulaShift 12s ease-in-out infinite alternate;
+    radial-gradient(ellipse 90% 70% at 25% 35%, rgba(110,30,210,0.72) 0%, transparent 55%),
+    radial-gradient(ellipse 65% 85% at 78% 68%, rgba(15,70,200,0.62) 0%, transparent 52%),
+    radial-gradient(ellipse 55% 55% at 58% 15%, rgba(190,40,110,0.48) 0%, transparent 48%),
+    radial-gradient(ellipse 75% 45% at 18% 85%, rgba(30,150,170,0.42) 0%, transparent 52%),
+    radial-gradient(ellipse 45% 65% at 88% 22%, rgba(70,190,130,0.28) 0%, transparent 42%),
+    #0d0a1a;
 }
 
-/* Secondary aurora ribbons */
-.nebula-bg::after {
+/* Animated colour-blob overlay — shifts the nebula clouds */
+.modal-left::before {
   content: '';
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: -30%; width: 160%; height: 160%;
   background:
-    linear-gradient(135deg, rgba(160, 40, 255, 0.12) 0%, transparent 40%),
-    linear-gradient(225deg, rgba(0, 180, 255, 0.1) 0%, transparent 35%),
-    linear-gradient(45deg,  rgba(255, 80, 140, 0.08) 0%, transparent 45%),
-    linear-gradient(315deg, rgba(80, 255, 200, 0.07) 0%, transparent 30%);
-  animation: auroraRipple 8s ease-in-out infinite alternate;
+    radial-gradient(ellipse 60% 50% at 40% 45%, rgba(140,60,255,0.42) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 70% 60%, rgba(60,120,255,0.36) 0%, transparent 50%),
+    radial-gradient(ellipse 70% 35% at 30% 75%, rgba(255,80,160,0.22) 0%, transparent 45%);
+  animation: nebulaShift 14s ease-in-out infinite alternate;
+  pointer-events: none; mix-blend-mode: screen; z-index: 0;
+}
+
+/* Aurora ribbon wash */
+.modal-left::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(145deg, rgba(150,50,255,0.16) 0%, transparent 38%),
+    linear-gradient(235deg, rgba(0,170,255,0.13) 0%, transparent 32%),
+    linear-gradient(55deg,  rgba(255,70,130,0.10) 0%, transparent 40%),
+    linear-gradient(320deg, rgba(60,240,180,0.08) 0%, transparent 28%);
+  animation: auroraRipple 9s ease-in-out infinite alternate;
+  pointer-events: none; z-index: 0;
 }
 
 @keyframes nebulaShift {
-  0%   { transform: translate(0, 0)      rotate(0deg)   scale(1); }
-  33%  { transform: translate(12px, -8px) rotate(2deg)  scale(1.04); }
-  66%  { transform: translate(-8px, 14px) rotate(-1.5deg) scale(0.97); }
-  100% { transform: translate(6px, -10px) rotate(3deg)  scale(1.02); }
+  0%   { transform: translate(0,0)        rotate(0deg)    scale(1);    }
+  33%  { transform: translate(14px,-9px)  rotate(2.5deg)  scale(1.05); }
+  66%  { transform: translate(-9px,16px)  rotate(-2deg)   scale(0.96); }
+  100% { transform: translate(7px,-12px)  rotate(3.5deg)  scale(1.03); }
 }
-
 @keyframes auroraRipple {
-  0%   { opacity: 0.6; transform: skewX(0deg)   skewY(0deg); }
-  50%  { opacity: 1;   transform: skewX(1.5deg) skewY(-1deg); }
-  100% { opacity: 0.7; transform: skewX(-1deg)  skewY(1.5deg); }
+  0%   { opacity: 0.55; transform: skewX(0deg)    skewY(0deg);   }
+  50%  { opacity: 1;    transform: skewX(1.8deg)  skewY(-1.2deg);}
+  100% { opacity: 0.65; transform: skewX(-1.2deg) skewY(1.8deg); }
 }
 
-/* Star field layer */
-.nebula-stars {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-/* Subtle noise grain overlay for depth */
-.nebula-grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-
-/* Soft vignette to focus on card center */
-.nebula-vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 75% at 50% 48%, transparent 30%, rgba(6, 4, 16, 0.55) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Glowing orb accent light */
+/* Glowing orb behind card */
 .nebula-orb {
-  position: absolute;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(160, 80, 255, 0.22) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  animation: orbPulse 5s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-  mix-blend-mode: screen;
+  position: absolute; z-index: 1;
+  width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(150,70,255,0.3) 0%, transparent 68%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: orbPulse 5.5s ease-in-out infinite;
+  pointer-events: none; mix-blend-mode: screen;
 }
-
 @keyframes orbPulse {
-  0%   { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
-  50%  { transform: translate(-50%, -52%) scale(1.15); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1);    opacity: 0.7; }
+  0%   { transform: translate(-50%,-50%) scale(1);    opacity: 0.65; }
+  50%  { transform: translate(-50%,-53%) scale(1.18); opacity: 1;    }
+  100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.65; }
 }
 
-/* Horizontal aurora scan line */
+/* Drifting aurora scan lines */
 .nebula-scan {
-  position: absolute;
-  left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(to right,
-    transparent 0%,
-    rgba(160, 100, 255, 0.3) 20%,
-    rgba(100, 200, 255, 0.5) 50%,
-    rgba(160, 100, 255, 0.3) 80%,
-    transparent 100%
-  );
-  top: 35%;
-  animation: scanDrift 7s ease-in-out infinite alternate;
-  pointer-events: none;
-  z-index: 1;
-  filter: blur(1px);
+  position: absolute; left: 0; right: 0; height: 1px; z-index: 1;
+  background: linear-gradient(to right, transparent 0%, rgba(150,100,255,0.38) 20%, rgba(100,200,255,0.6) 50%, rgba(150,100,255,0.38) 80%, transparent 100%);
+  pointer-events: none; filter: blur(0.8px);
+  animation: scanDrift 8s ease-in-out infinite alternate;
 }
-.nebula-scan:nth-child(2) {
-  top: 60%;
-  animation-delay: -3.5s;
-  animation-duration: 9s;
-  opacity: 0.6;
-}
-
+.nebula-scan.s2 { animation-delay: -4s; animation-duration: 11s; opacity: 0.5; }
 @keyframes scanDrift {
-  0%   { top: 30%; opacity: 0.4; }
-  50%  { opacity: 0.8; }
-  100% { top: 45%; opacity: 0.4; }
+  0%   { top: 27%; opacity: 0.3; }
+  50%  { opacity: 0.9; }
+  100% { top: 47%; opacity: 0.3; }
 }
 
-/* =====================
-   CARD SCENE — 3D floating + holo
-   ===================== */
+/* Edge vignette to keep corners deep */
+.nebula-vignette {
+  position: absolute; inset: 0; z-index: 1;
+  background: radial-gradient(ellipse 72% 78% at 50% 48%, transparent 28%, rgba(4,2,14,0.62) 100%);
+  pointer-events: none;
+}
+
+/* ── CARD SCENE — transparent, layered on top ── */
 .card-scene {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: absolute; inset: 0; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
   perspective: 900px;
-  z-index: 2;
+  background: transparent; /* NO black bg */
 }
 
-/* subtle dust particles */
+/* dust motes */
 .card-scene::before {
   content: '';
   position: absolute; inset: 0;
   background-image:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.35) 0%, transparent 100%),
-    radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.28) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 55% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 10% 65%, rgba(255,255,255,0.2) 0%, transparent 100%),
-    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,0.25) 0%, transparent 100%),
-    radial-gradient(1px 1px at 40% 88%, rgba(255,255,255,0.18) 0%, transparent 100%),
-    radial-gradient(1.5px 1.5px at 62% 10%, rgba(200,180,255,0.3) 0%, transparent 100%),
-    radial-gradient(1px 1px at 32% 52%, rgba(180,220,255,0.22) 0%, transparent 100%);
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.32) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.24) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 75%, rgba(255,255,255,0.28) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 65%, rgba(255,255,255,0.18) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88% 55%, rgba(255,255,255,0.22) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 88%, rgba(255,255,255,0.16) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 62% 10%, rgba(200,180,255,0.28) 0%, transparent 100%),
+    radial-gradient(1px 1px at 32% 52%, rgba(180,220,255,0.2) 0%, transparent 100%);
   pointer-events: none;
   animation: dustdrift 6s ease-in-out infinite alternate;
-  z-index: 1;
 }
-@keyframes dustdrift {
-  from { transform: translateY(0px); opacity: 0.7; }
-  to   { transform: translateY(-5px); opacity: 1; }
-}
-
-/* floor reflection — now tinted purple/blue instead of black */
-.card-scene::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 100px;
-  background: linear-gradient(to bottom,
-    transparent,
-    rgba(80, 40, 180, 0.08) 60%,
-    rgba(40, 80, 200, 0.06) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
+@keyframes dustdrift { from { transform: translateY(0px); opacity: 0.7; } to { transform: translateY(-5px); opacity: 1; } }
 
 .card-wrapper {
-  position: relative;
-  width: 196px;
-  height: 274px;
-  border-radius: 8px;
+  position: relative; width: 196px; height: 274px; border-radius: 8px;
   transform-style: preserve-3d;
   animation: cardFloat 4.2s ease-in-out infinite, cardEntrance 0.7s var(--ease) both;
   will-change: transform;
-  filter: drop-shadow(0 28px 40px rgba(60, 20, 120, 0.7)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
+  filter: drop-shadow(0 28px 40px rgba(80,30,160,0.78)) drop-shadow(0 4px 8px rgba(0,0,0,0.45));
   z-index: 2;
 }
-
 @keyframes cardEntrance {
-  from {
-    transform: translateY(30px) rotateX(30deg) rotateY(-20deg) scale(0.85);
-    opacity: 0;
-    filter: blur(6px) drop-shadow(0 28px 40px rgba(60,20,120,0.7));
-  }
-  to {
-    opacity: 1;
-    filter: blur(0) drop-shadow(0 28px 40px rgba(60,20,120,0.7)) drop-shadow(0 4px 8px rgba(0,0,0,0.4));
-  }
+  from { transform: translateY(30px) rotateX(30deg) rotateY(-20deg) scale(0.85); opacity: 0; filter: blur(6px); }
+  to   { opacity: 1; filter: blur(0); }
 }
-
 @keyframes cardFloat {
-  0%   { transform: translateY(0px)   rotateX(4deg)  rotateY(-6deg)  rotateZ(0.5deg); }
+  0%   { transform: translateY(0px)   rotateX(4deg)  rotateY(-6deg)  rotateZ(0.5deg);  }
   25%  { transform: translateY(-9px)  rotateX(7deg)  rotateY(5deg)   rotateZ(-0.5deg); }
-  50%  { transform: translateY(-14px) rotateX(3deg)  rotateY(8deg)   rotateZ(0.8deg); }
+  50%  { transform: translateY(-14px) rotateX(3deg)  rotateY(8deg)   rotateZ(0.8deg);  }
   75%  { transform: translateY(-7px)  rotateX(-2deg) rotateY(2deg)   rotateZ(-0.3deg); }
-  100% { transform: translateY(0px)   rotateX(4deg)  rotateY(-6deg)  rotateZ(0.5deg); }
+  100% { transform: translateY(0px)   rotateX(4deg)  rotateY(-6deg)  rotateZ(0.5deg);  }
 }
+.card-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; border-radius: 8px; display: block; }
 
-.card-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  border-radius: 8px;
-  display: block;
-}
-
-/* holographic overlay */
-.card-holo {
-  position: absolute; inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  overflow: hidden;
-  mix-blend-mode: screen;
-  opacity: 0.45;
-}
-
+.card-holo { position: absolute; inset: 0; border-radius: 8px; pointer-events: none; overflow: hidden; mix-blend-mode: screen; opacity: 0.45; }
 .card-holo::before {
-  content: '';
-  position: absolute;
-  inset: -50%;
-  width: 200%; height: 200%;
-  background: conic-gradient(
-    from 0deg at 50% 50%,
-    rgba(255,0,128,0)   0deg,
-    rgba(255,0,128,0.6) 30deg,
-    rgba(255,200,0,0.5) 60deg,
-    rgba(0,255,180,0.5) 100deg,
-    rgba(0,180,255,0.5) 140deg,
-    rgba(120,0,255,0.5) 180deg,
-    rgba(255,0,128,0.5) 220deg,
-    rgba(255,200,0,0.4) 260deg,
-    rgba(0,255,180,0.4) 300deg,
-    rgba(0,180,255,0.3) 330deg,
-    rgba(255,0,128,0)   360deg
-  );
+  content: ''; position: absolute; inset: -50%; width: 200%; height: 200%;
+  background: conic-gradient(from 0deg at 50% 50%, rgba(255,0,128,0) 0deg, rgba(255,0,128,0.6) 30deg, rgba(255,200,0,0.5) 60deg, rgba(0,255,180,0.5) 100deg, rgba(0,180,255,0.5) 140deg, rgba(120,0,255,0.5) 180deg, rgba(255,0,128,0.5) 220deg, rgba(255,200,0,0.4) 260deg, rgba(0,255,180,0.4) 300deg, rgba(0,180,255,0.3) 330deg, rgba(255,0,128,0) 360deg);
   animation: holoSpin 3.8s linear infinite;
-  transform-origin: center center;
 }
+@keyframes holoSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.card-holo::after { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(110deg, transparent 0px, transparent 3px, rgba(255,255,255,0.03) 3px, rgba(255,255,255,0.03) 4px); }
 
-@keyframes holoSpin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
-}
+.card-sparkle { position: absolute; inset: 0; border-radius: 8px; pointer-events: none; overflow: hidden; }
+.sparkle-dot { position: absolute; border-radius: 50%; background: white; animation: sparklePulse var(--dur, 2s) ease-in-out var(--delay, 0s) infinite; opacity: 0; }
+@keyframes sparklePulse { 0% { opacity:0; transform:scale(0.5); } 40% { opacity:0.9; transform:scale(1.2); } 60% { opacity:0.8; transform:scale(1); } 100% { opacity:0; transform:scale(0.5); } }
 
-.card-holo::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: repeating-linear-gradient(
-    110deg,
-    transparent               0px,
-    transparent               3px,
-    rgba(255,255,255,0.03)    3px,
-    rgba(255,255,255,0.03)    4px
-  );
-  pointer-events: none;
-}
-
-.card-sparkle {
-  position: absolute; inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.sparkle-dot {
-  position: absolute;
-  border-radius: 50%;
-  background: white;
-  animation: sparklePulse var(--dur, 2s) ease-in-out var(--delay, 0s) infinite;
-  opacity: 0;
-}
-@keyframes sparklePulse {
-  0%   { opacity: 0;   transform: scale(0.5); }
-  40%  { opacity: 0.9; transform: scale(1.2); }
-  60%  { opacity: 0.8; transform: scale(1);   }
-  100% { opacity: 0;   transform: scale(0.5); }
-}
-
-.card-glare {
-  position: absolute; inset: 0;
-  border-radius: 8px;
-  pointer-events: none;
-  overflow: hidden;
-}
+.card-glare { position: absolute; inset: 0; border-radius: 8px; pointer-events: none; overflow: hidden; }
 .card-glare::before {
-  content: '';
-  position: absolute;
-  top: -100%; left: -60%;
-  width: 50%; height: 300%;
-  background: linear-gradient(
-    105deg,
-    transparent 20%,
-    rgba(255,255,255,0.12) 45%,
-    rgba(255,255,255,0.18) 50%,
-    rgba(255,255,255,0.12) 55%,
-    transparent 80%
-  );
+  content: ''; position: absolute; top: -100%; left: -60%; width: 50%; height: 300%;
+  background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.12) 45%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0.12) 55%, transparent 80%);
   animation: glareSweep 3.4s ease-in-out infinite;
 }
-@keyframes glareSweep {
-  0%   { transform: translateX(0)   skewX(-10deg); opacity: 0; }
-  10%  { opacity: 1; }
-  50%  { transform: translateX(480px) skewX(-10deg); opacity: 1; }
-  60%  { opacity: 0; }
-  100% { transform: translateX(480px) skewX(-10deg); opacity: 0; }
-}
+@keyframes glareSweep { 0% { transform:translateX(0) skewX(-10deg); opacity:0; } 10% { opacity:1; } 50% { transform:translateX(480px) skewX(-10deg); opacity:1; } 60% { opacity:0; } 100% { transform:translateX(480px) skewX(-10deg); opacity:0; } }
 
-/* shadow blob — now purple tinted */
 .card-shadow {
-  position: absolute;
-  bottom: 18px;
-  left: 50%;
+  position: absolute; bottom: 18px; left: 50%; z-index: 1;
+  width: 145px; height: 22px;
+  background: radial-gradient(ellipse at center, rgba(110,50,240,0.68) 0%, transparent 70%);
+  border-radius: 50%; filter: blur(8px);
   transform: translateX(-50%);
-  width: 145px;
-  height: 22px;
-  background: radial-gradient(ellipse at center, rgba(120, 60, 255, 0.6) 0%, transparent 70%);
-  border-radius: 50%;
   animation: shadowPulse 4.2s ease-in-out infinite;
-  filter: blur(8px);
-  z-index: 2;
 }
 @keyframes shadowPulse {
-  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.5; }
-  25%  { transform: translateX(-50%) scaleX(0.82) scaleY(0.7);  opacity: 0.3; }
-  50%  { transform: translateX(-50%) scaleX(0.72) scaleY(0.55); opacity: 0.2; }
-  75%  { transform: translateX(-50%) scaleX(0.85) scaleY(0.72); opacity: 0.3; }
-  100% { transform: translateX(-50%) scaleX(1)    scaleY(1);    opacity: 0.5; }
+  0%   { transform:translateX(-50%) scaleX(1)    scaleY(1);    opacity:0.55; }
+  50%  { transform:translateX(-50%) scaleX(0.72) scaleY(0.55); opacity:0.2;  }
+  100% { transform:translateX(-50%) scaleX(1)    scaleY(1);    opacity:0.55; }
 }
 
-.modal-no-img {
-  font-family: var(--mono); font-size: 11px; color: #555;
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  z-index: 2;
-}
+.modal-no-img { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.3); position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; }
 
-/* name + chips float at bottom */
 .modal-left-foot {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  z-index: 3;
+  position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
   padding: 56px 18px 20px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(8, 4, 24, 0.6) 35%,
-    rgba(8, 4, 24, 0.95) 100%
-  );
+  background: linear-gradient(to bottom, transparent 0%, rgba(6,3,20,0.65) 35%, rgba(6,3,20,0.97) 100%);
 }
-
-.modal-card-name {
-  font-family: var(--display); font-size: 14px; font-weight: 800;
-  color: #fff; letter-spacing: -0.3px; line-height: 1.25;
-  margin-bottom: 9px;
-  animation: textrise 0.36s var(--ease) 0.1s both;
-}
-@keyframes textrise {
-  from { transform: translateY(8px); opacity: 0; }
-  to   { transform: translateY(0);   opacity: 1; }
-}
-
+.modal-card-name { font-family: var(--display); font-size: 14px; font-weight: 800; color: #fff; letter-spacing: -0.3px; line-height: 1.25; margin-bottom: 9px; animation: textrise 0.36s var(--ease) 0.1s both; }
+@keyframes textrise { from { transform:translateY(8px); opacity:0; } to { transform:translateY(0); opacity:1; } }
 .modal-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.chip {
-  display: inline-block; padding: 3px 7px;
-  background: rgba(160, 100, 255, 0.12);
-  border: 1px solid rgba(180, 130, 255, 0.22);
-  border-radius: 4px;
-  font-family: var(--mono); font-size: 9px;
-  color: rgba(200, 180, 255, 0.6);
-  letter-spacing: 0.03em;
-  animation: textrise 0.36s var(--ease) 0.18s both;
-}
+.chip { display: inline-block; padding: 3px 7px; background: rgba(150,90,255,0.15); border: 1px solid rgba(180,130,255,0.26); border-radius: 4px; font-family: var(--mono); font-size: 9px; color: rgba(200,175,255,0.65); letter-spacing: 0.03em; animation: textrise 0.36s var(--ease) 0.18s both; }
 
 /* ── RIGHT PANEL ── */
-.modal-right {
-  flex: 1; min-width: 0;
-  display: flex; flex-direction: column;
-  overflow: hidden;
-  border-left: 1px solid var(--rule);
-}
-
-.modal-right-head {
-  padding: 18px 22px 14px;
-  border-bottom: 1px solid var(--rule);
-  flex-shrink: 0;
-}
-.modal-right-title {
-  font-family: var(--display); font-size: 13px; font-weight: 700;
-  color: var(--ink); letter-spacing: -0.2px;
-}
-.modal-right-sub {
-  font-family: var(--mono); font-size: 11px; color: var(--mid); margin-top: 2px;
-}
-
-.modal-best {
-  padding: 13px 22px;
-  background: var(--ink);
-  display: flex; gap: 28px; flex-shrink: 0;
-}
+.modal-right { flex: 1; min-width: 0; display: flex; flex-direction: column; overflow: hidden; border-left: 1px solid var(--rule); }
+.modal-right-head { padding: 18px 22px 14px; border-bottom: 1px solid var(--rule); flex-shrink: 0; }
+.modal-right-title { font-family: var(--display); font-size: 13px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; }
+.modal-right-sub { font-family: var(--mono); font-size: 11px; color: var(--mid); margin-top: 2px; }
+.modal-best { padding: 13px 22px; background: var(--ink); display: flex; gap: 28px; flex-shrink: 0; }
 .best-item { display: flex; flex-direction: column; gap: 2px; }
-.best-lbl {
-  font-family: var(--mono); font-size: 8.5px; color: rgba(255,255,255,0.35);
-  text-transform: uppercase; letter-spacing: 0.1em;
-}
-.best-val {
-  font-family: var(--display); font-size: 17px; font-weight: 800;
-  color: var(--white); letter-spacing: -0.5px;
-}
+.best-lbl { font-family: var(--mono); font-size: 8.5px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; }
+.best-val { font-family: var(--display); font-size: 17px; font-weight: 800; color: var(--white); letter-spacing: -0.5px; }
 .best-val.secondary { color: rgba(255,255,255,0.55); font-size: 15px; }
-
-.modal-stores-scroll {
-  flex: 1; overflow-y: auto; padding: 8px 0 20px;
-}
+.modal-stores-scroll { flex: 1; overflow-y: auto; padding: 8px 0 20px; }
 .modal-stores-scroll::-webkit-scrollbar { width: 3px; }
 .modal-stores-scroll::-webkit-scrollbar-thumb { background: #ddd; }
-
-/* store rows */
-.store-entry {
-  padding: 13px 22px;
-  border-bottom: 1px solid var(--rule);
-}
+.store-entry { padding: 13px 22px; border-bottom: 1px solid var(--rule); }
 .store-entry:last-child { border-bottom: none; }
 .store-entry:hover { background: #fcfbfa; }
-
-.store-entry-head {
-  display: flex; align-items: center; gap: 9px; margin-bottom: 9px;
-}
-.rank-badge {
-  width: 20px; height: 20px; border-radius: 4px;
-  background: var(--bg); border: 1px solid var(--rule);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--mono); font-size: 9.5px; color: var(--mid);
-  flex-shrink: 0;
-}
+.store-entry-head { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+.rank-badge { width: 20px; height: 20px; border-radius: 4px; background: var(--bg); border: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 9.5px; color: var(--mid); flex-shrink: 0; }
 .rank-badge.first { background: var(--ink); border-color: var(--ink); color: #fff; }
-.store-entry-name {
-  font-size: 13px; font-weight: 600; color: var(--ink); flex: 1;
-}
+.store-entry-name { font-size: 13px; font-weight: 600; color: var(--ink); flex: 1; }
 .store-entry-links { display: flex; gap: 5px; }
-.entry-link {
-  font-family: var(--mono); font-size: 10px; color: var(--mid);
-  text-decoration: none; padding: 3px 8px;
-  border: 1px solid var(--rule); border-radius: 4px;
-  transition: color 0.1s, border-color 0.1s; white-space: nowrap;
-}
+.entry-link { font-family: var(--mono); font-size: 10px; color: var(--mid); text-decoration: none; padding: 3px 8px; border: 1px solid var(--rule); border-radius: 4px; transition: color 0.1s, border-color 0.1s; white-space: nowrap; }
 .entry-link:hover { color: var(--ink); border-color: #aaa; }
-
-.store-entry-prices {
-  display: flex; gap: 18px; margin-bottom: 10px;
-}
+.store-entry-prices { display: flex; gap: 18px; margin-bottom: 10px; }
 .price-col { display: flex; flex-direction: column; gap: 1px; }
-.price-col-lbl {
-  font-family: var(--mono); font-size: 8.5px; color: var(--mid);
-  text-transform: uppercase; letter-spacing: 0.08em;
-}
-.price-col-val {
-  font-family: var(--mono); font-size: 13.5px; color: var(--ink);
-}
-.price-col-val.cash  { color: var(--cash); }
+.price-col-lbl { font-family: var(--mono); font-size: 8.5px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.08em; }
+.price-col-val { font-family: var(--mono); font-size: 13.5px; color: var(--ink); }
+.price-col-val.cash   { color: var(--cash);   }
 .price-col-val.credit { color: var(--credit); }
-
-/* variants mini table */
-.variants-table {
-  background: var(--bg); border: 1px solid var(--rule);
-  border-radius: 6px; overflow: hidden;
-}
-.vrow {
-  display: grid;
-  grid-template-columns: 1fr 80px 80px 80px;
-  border-bottom: 1px solid var(--rule);
-}
+.variants-table { background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.vrow { display: grid; grid-template-columns: 1fr 80px 80px 80px; border-bottom: 1px solid var(--rule); }
 .vrow:last-child { border-bottom: none; }
 .vrow.vhead { background: #ebe9e4; }
-.vcell {
-  padding: 6px 10px;
-  font-family: var(--mono); font-size: 10px; color: var(--mid);
-  border-right: 1px solid var(--rule);
-  display: flex; align-items: center;
-}
+.vcell { padding: 6px 10px; font-family: var(--mono); font-size: 10px; color: var(--mid); border-right: 1px solid var(--rule); display: flex; align-items: center; }
 .vcell:last-child { border-right: none; }
-.vcell.vname  { color: var(--ink); }
-.vcell.vcash  { color: var(--cash); }
-.vcell.vnum   { justify-content: flex-end; }
+.vcell.vname { color: var(--ink); }
+.vcell.vcash { color: var(--cash); }
+.vcell.vnum  { justify-content: flex-end; }
 .vcell.vhead-lbl { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.07em; }
 
-/* =====================
-   MOBILE BOTTOM SHEET
-   ===================== */
+/* ── MOBILE ── */
 @media (max-width: 640px) {
-  .modal-backdrop {
-    align-items: flex-end;
-  }
-
-  .modal {
-    width: 100%;
-    margin-left: 0;
-    max-height: 92dvh;
-    border-radius: 20px 20px 0 0;
-    box-shadow: 0 -12px 48px rgba(0,0,0,0.22);
-    animation: sheetslideup 0.36s var(--ease);
-  }
-
-  @keyframes sheetslideup {
-    from { transform: translateY(60px); opacity: 0; }
-    to   { transform: translateY(0);    opacity: 1; }
-  }
-
-  .modal-layout {
-    flex-direction: column;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .modal-layout::before {
-    content: '';
-    display: block;
-    width: 36px; height: 4px;
-    background: #d0cdc8;
-    border-radius: 2px;
-    margin: 10px auto 0;
-    flex-shrink: 0;
-  }
-
-  .modal-left {
-    width: 100%;
-    height: 160px;
-    flex-shrink: 0;
-  }
-
-  .modal-img-container {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .modal-left-foot {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    padding: 40px 16px 14px;
-    background: linear-gradient(to bottom, transparent 0%, rgba(8,4,24,0.7) 40%, rgba(8,4,24,0.95) 100%);
-  }
-
-  .modal-right {
-    border-left: none;
-    border-top: 1px solid rgba(255,255,255,0.07);
-    overflow: visible;
-  }
-
-  .modal-stores-scroll {
-    overflow: visible;
-    padding-bottom: 40px;
-  }
-
-  .modal-close-btn {
-    top: 10px; right: 10px;
-  }
-
-  .card-scene {
-    display: none;
-  }
-  .modal-img-container {
-    display: block;
-    position: absolute;
-    inset: 0;
-  }
-  .modal-card-img-mobile {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: top center;
-    display: block;
-  }
+  .modal-backdrop { align-items: flex-end; }
+  .modal { width: 100%; margin-left: 0; max-height: 92dvh; border-radius: 20px 20px 0 0; box-shadow: 0 -12px 48px rgba(0,0,0,0.22); animation: sheetslideup 0.36s var(--ease); }
+  @keyframes sheetslideup { from { transform:translateY(60px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+  .modal-layout { flex-direction: column; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .modal-layout::before { content:''; display:block; width:36px; height:4px; background:rgba(255,255,255,0.22); border-radius:2px; margin:10px auto 0; flex-shrink:0; }
+  .modal-left { width:100%; height:160px; flex-shrink:0; }
+  .modal-left-foot { padding:40px 16px 14px; }
+  .modal-right { border-left:none; border-top:1px solid rgba(255,255,255,0.07); overflow:visible; }
+  .modal-stores-scroll { overflow:visible; padding-bottom:40px; }
+  .modal-close-btn { top:10px; right:10px; }
+  .card-scene { display:none; }
+  .modal-card-img-mobile { position:absolute!important; inset:0!important; width:100%!important; height:100%!important; object-fit:cover!important; object-position:top center!important; display:block!important; }
 }
 
 ::selection { background: var(--ink); color: var(--white); }
 `
 
 const SPARKLES = [
-  { top: "18%", left: "22%", size: 3, dur: "1.8s", delay: "0s"   },
-  { top: "35%", left: "72%", size: 2, dur: "2.4s", delay: "0.4s" },
-  { top: "62%", left: "30%", size: 4, dur: "1.6s", delay: "0.9s" },
-  { top: "78%", left: "60%", size: 2, dur: "2.1s", delay: "0.2s" },
-  { top: "50%", left: "85%", size: 3, dur: "1.9s", delay: "1.1s" },
-  { top: "12%", left: "55%", size: 2, dur: "2.6s", delay: "0.6s" },
-  { top: "88%", left: "18%", size: 3, dur: "1.7s", delay: "1.4s" },
-  { top: "42%", left: "45%", size: 2, dur: "2.2s", delay: "0.3s" },
+  { top:"18%", left:"22%", size:3, dur:"1.8s", delay:"0s"   },
+  { top:"35%", left:"72%", size:2, dur:"2.4s", delay:"0.4s" },
+  { top:"62%", left:"30%", size:4, dur:"1.6s", delay:"0.9s" },
+  { top:"78%", left:"60%", size:2, dur:"2.1s", delay:"0.2s" },
+  { top:"50%", left:"85%", size:3, dur:"1.9s", delay:"1.1s" },
+  { top:"12%", left:"55%", size:2, dur:"2.6s", delay:"0.6s" },
+  { top:"88%", left:"18%", size:3, dur:"1.7s", delay:"1.4s" },
+  { top:"42%", left:"45%", size:2, dur:"2.2s", delay:"0.3s" },
 ]
 
-// Star positions for the nebula background
 const STARS = [
-  { top: "8%",  left: "15%", size: 1.5, opacity: 0.7, dur: "3.2s", delay: "0s"   },
-  { top: "14%", left: "72%", size: 1,   opacity: 0.5, dur: "4.1s", delay: "0.8s" },
-  { top: "28%", left: "88%", size: 2,   opacity: 0.8, dur: "2.8s", delay: "1.4s" },
-  { top: "42%", left: "8%",  size: 1,   opacity: 0.4, dur: "3.7s", delay: "0.3s" },
-  { top: "55%", left: "92%", size: 1.5, opacity: 0.6, dur: "4.5s", delay: "2.1s" },
-  { top: "68%", left: "35%", size: 1,   opacity: 0.5, dur: "3.0s", delay: "1.0s" },
-  { top: "80%", left: "78%", size: 2,   opacity: 0.7, dur: "2.5s", delay: "0.6s" },
-  { top: "90%", left: "20%", size: 1,   opacity: 0.4, dur: "4.8s", delay: "1.8s" },
-  { top: "22%", left: "48%", size: 1.5, opacity: 0.6, dur: "3.3s", delay: "2.5s" },
-  { top: "72%", left: "55%", size: 1,   opacity: 0.3, dur: "5.0s", delay: "0.4s" },
-  { top: "5%",  left: "60%", size: 2,   opacity: 0.8, dur: "2.9s", delay: "1.6s" },
-  { top: "48%", left: "25%", size: 1,   opacity: 0.45,dur: "4.2s", delay: "0.9s" },
+  { top:"8%",  left:"15%", size:1.5, opacity:0.7,  dur:"3.2s", delay:"0s"   },
+  { top:"14%", left:"72%", size:1,   opacity:0.5,  dur:"4.1s", delay:"0.8s" },
+  { top:"28%", left:"88%", size:2,   opacity:0.8,  dur:"2.8s", delay:"1.4s" },
+  { top:"42%", left:"8%",  size:1,   opacity:0.4,  dur:"3.7s", delay:"0.3s" },
+  { top:"55%", left:"92%", size:1.5, opacity:0.6,  dur:"4.5s", delay:"2.1s" },
+  { top:"68%", left:"35%", size:1,   opacity:0.5,  dur:"3.0s", delay:"1.0s" },
+  { top:"80%", left:"78%", size:2,   opacity:0.7,  dur:"2.5s", delay:"0.6s" },
+  { top:"90%", left:"20%", size:1,   opacity:0.45, dur:"4.8s", delay:"1.8s" },
+  { top:"22%", left:"48%", size:1.5, opacity:0.6,  dur:"3.3s", delay:"2.5s" },
+  { top:"72%", left:"55%", size:1,   opacity:0.3,  dur:"5.0s", delay:"0.4s" },
+  { top:"5%",  left:"60%", size:2,   opacity:0.75, dur:"2.9s", delay:"1.6s" },
+  { top:"48%", left:"25%", size:1,   opacity:0.4,  dur:"4.2s", delay:"0.9s" },
 ]
 
 export default function App() {
@@ -951,16 +394,14 @@ export default function App() {
     e?.preventDefault?.()
     const q = query.trim()
     if (!q) return
-    setLoading(true)
-    setError("")
+    setLoading(true); setError("")
     try {
-      const res = await fetch(`/api/search?${new URLSearchParams({ q, game: selectedGame })}`)
+      const res  = await fetch(`/api/search?${new URLSearchParams({ q, game: selectedGame })}`)
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || "Search failed")
       setData(json)
     } catch (err) {
-      setError(err.message || "Search failed")
-      setData(null)
+      setError(err.message || "Search failed"); setData(null)
     } finally {
       setLoading(false)
     }
@@ -969,33 +410,27 @@ export default function App() {
   const cards = useMemo(() => {
     const list = Array.isArray(data?.cards) ? [...data.cards] : []
     return list.sort((a, b) => {
-      const aCash = Math.max(...(a.stores || []).map(s => Number(s.cashPrice || 0)), 0)
-      const bCash = Math.max(...(b.stores || []).map(s => Number(s.cashPrice || 0)), 0)
-      const aCredit = Math.max(...(a.stores || []).map(s => Number(s.creditPrice || 0)), 0)
-      const bCredit = Math.max(...(b.stores || []).map(s => Number(s.creditPrice || 0)), 0)
-      if (bCash !== aCash) return bCash - aCash
-      if (bCredit !== aCredit) return bCredit - aCredit
-      if ((b.buylistCount || 0) !== (a.buylistCount || 0)) return (b.buylistCount || 0) - (a.buylistCount || 0)
-      return String(a.name || "").localeCompare(String(b.name || ""))
+      const aCash   = Math.max(...(a.stores||[]).map(s=>Number(s.cashPrice||0)),0)
+      const bCash   = Math.max(...(b.stores||[]).map(s=>Number(s.cashPrice||0)),0)
+      const aCredit = Math.max(...(a.stores||[]).map(s=>Number(s.creditPrice||0)),0)
+      const bCredit = Math.max(...(b.stores||[]).map(s=>Number(s.creditPrice||0)),0)
+      if (bCash!==aCash) return bCash-aCash
+      if (bCredit!==aCredit) return bCredit-aCredit
+      if ((b.buylistCount||0)!==(a.buylistCount||0)) return (b.buylistCount||0)-(a.buylistCount||0)
+      return String(a.name||"").localeCompare(String(b.name||""))
     })
   }, [data])
 
   const modalStores = useMemo(() => {
     if (!selected) return []
-    return [...(selected.stores || [])].sort((a, b) => {
-      const d = Number(b.cashPrice || 0) - Number(a.cashPrice || 0)
-      return d !== 0 ? d : Number(b.creditPrice || 0) - Number(a.creditPrice || 0)
+    return [...(selected.stores||[])].sort((a,b) => {
+      const d = Number(b.cashPrice||0)-Number(a.cashPrice||0)
+      return d!==0 ? d : Number(b.creditPrice||0)-Number(a.creditPrice||0)
     })
   }, [selected])
 
-  const bestCash = useMemo(
-    () => Math.max(...(selected?.stores || []).map(s => Number(s.cashPrice || 0)), 0),
-    [selected]
-  )
-  const bestCredit = useMemo(
-    () => Math.max(...(selected?.stores || []).map(s => Number(s.creditPrice || 0)), 0),
-    [selected]
-  )
+  const bestCash   = useMemo(()=>Math.max(...(selected?.stores||[]).map(s=>Number(s.cashPrice||0)),0),[selected])
+  const bestCredit = useMemo(()=>Math.max(...(selected?.stores||[]).map(s=>Number(s.creditPrice||0)),0),[selected])
 
   return (
     <>
@@ -1003,14 +438,10 @@ export default function App() {
 
       <nav>
         <a className="nav-logo" href="/">buy<span>list</span></a>
-        <div className="nav-sep" />
+        <div className="nav-sep"/>
         <div className="game-scroll">
-          {GAMES.map(g => (
-            <button
-              key={g}
-              className={`game-tab${selectedGame === g ? " active" : ""}`}
-              onClick={() => setSelectedGame(g)}
-            >{g}</button>
+          {GAMES.map(g=>(
+            <button key={g} className={`game-tab${selectedGame===g?" active":""}`} onClick={()=>setSelectedGame(g)}>{g}</button>
           ))}
         </div>
       </nav>
@@ -1019,65 +450,44 @@ export default function App() {
         <form className="search-form" onSubmit={runSearch}>
           <span className="search-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="11" cy="11" r="7.5" />
-              <path d="m20 20-3.5-3.5" strokeLinecap="round" />
+              <circle cx="11" cy="11" r="7.5"/><path d="m20 20-3.5-3.5" strokeLinecap="round"/>
             </svg>
           </span>
-          <input
-            ref={inputRef}
-            className="search-input"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder={`Search ${selectedGame}…`}
-            spellCheck={false}
-            autoComplete="off"
-          />
-          <button className="search-btn" type="submit" disabled={loading}>
-            {loading ? "Searching" : "Search"}
-          </button>
+          <input ref={inputRef} className="search-input" value={query}
+            onChange={e=>setQuery(e.target.value)}
+            placeholder={`Search ${selectedGame}…`} spellCheck={false} autoComplete="off"/>
+          <button className="search-btn" type="submit" disabled={loading}>{loading?"Searching":"Search"}</button>
         </form>
       </div>
 
-      {error && <div className="error-strip">⚠ {error}</div>}
+      {error&&<div className="error-strip">⚠ {error}</div>}
 
-      {(data || loading) && !error && (
+      {(data||loading)&&!error&&(
         <div className="results-meta-bar">
           {loading
-            ? <div className="loading-track"><div className="loading-fill" /></div>
-            : <span className="results-label"><b>{data?.totalCards || 0}</b> cards in {selectedGame}</span>
+            ? <div className="loading-track"><div className="loading-fill"/></div>
+            : <span className="results-label"><b>{data?.totalCards||0}</b> cards in {selectedGame}</span>
           }
         </div>
       )}
 
       <div className="grid">
-        {!loading && !data && !error && (
+        {!loading&&!data&&!error&&(
           <div className="empty-state">
             <h2>Search to get started</h2>
             <p>Compare live cash and credit buylist prices across every major store.</p>
           </div>
         )}
-
-        {!loading && data && cards.length === 0 && (
-          <div className="empty-state">
-            <h2>No results</h2>
-            <p>Try a different card name, or switch the game above.</p>
-          </div>
+        {!loading&&data&&cards.length===0&&(
+          <div className="empty-state"><h2>No results</h2><p>Try a different card name, or switch the game above.</p></div>
         )}
-
-        {cards.map((card, i) => {
-          const bCash = Math.max(...(card.stores || []).map(s => Number(s.cashPrice || 0)), 0)
-          const bCredit = Math.max(...(card.stores || []).map(s => Number(s.creditPrice || 0)), 0)
+        {cards.map((card,i)=>{
+          const bCash   = Math.max(...(card.stores||[]).map(s=>Number(s.cashPrice||0)),0)
+          const bCredit = Math.max(...(card.stores||[]).map(s=>Number(s.creditPrice||0)),0)
           return (
-            <button
-              key={card.key || `${card.name}-${i}`}
-              className="card-tile"
-              onClick={() => setSelected(card)}
-            >
+            <button key={card.key||`${card.name}-${i}`} className="card-tile" onClick={()=>setSelected(card)}>
               <div className="tile-img-wrap">
-                {card.image
-                  ? <img src={card.image} alt={card.name} className="tile-img" />
-                  : <div className="tile-no-img">NO IMAGE</div>
-                }
+                {card.image?<img src={card.image} alt={card.name} className="tile-img"/>:<div className="tile-no-img">NO IMAGE</div>}
                 <div className="tile-overlay">
                   <div className="overlay-lbl">Best cash offer</div>
                   <div className="overlay-cash">{money(bCash)}</div>
@@ -1086,13 +496,9 @@ export default function App() {
               </div>
               <div className="tile-body">
                 <div className="tile-name">{card.name}</div>
-                <div className="tile-sub">
-                  {[card.setName, card.rarity].filter(Boolean).join(" · ")}
-                </div>
+                <div className="tile-sub">{[card.setName,card.rarity].filter(Boolean).join(" · ")}</div>
                 <div className="tile-foot">
-                  <span className="tile-stores-count">
-                    {card.buylistCount || 0} store{(card.buylistCount || 0) !== 1 ? "s" : ""}
-                  </span>
+                  <span className="tile-stores-count">{card.buylistCount||0} store{(card.buylistCount||0)!==1?"s":""}</span>
                   <div className="tile-price-stack">
                     <span className="tile-best-cash">Cash {money(bCash)}</span>
                     <span className="tile-best-credit">Credit {money(bCredit)}</span>
@@ -1104,161 +510,105 @@ export default function App() {
         })}
       </div>
 
-      {selected && (
-        <div className="modal-backdrop" onClick={() => setSelected(null)}>
-          <div className="modal" onClick={e => e.stopPropagation()}>
-
-            <button className="modal-close-btn" onClick={() => setSelected(null)}>×</button>
-
+      {selected&&(
+        <div className="modal-backdrop" onClick={()=>setSelected(null)}>
+          <div className="modal" onClick={e=>e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={()=>setSelected(null)}>×</button>
             <div className="modal-layout">
 
-              {/* ── LEFT / IMAGE PANEL ── */}
+              {/* ── LEFT PANEL ──
+                  .modal-left has the nebula gradient baked into its CSS background.
+                  ::before and ::after add animated colour blobs + aurora on top.
+                  Everything inside is absolutely positioned and z-indexed above those layers.
+              */}
               <div className="modal-left">
 
-                {/* NEBULA BACKGROUND */}
-                <div className="nebula-bg" key={selected.name}>
-                  {/* Animated star field */}
-                  <div className="nebula-stars">
-                    {STARS.map((star, i) => (
-                      <div
-                        key={i}
-                        style={{
-                          position: "absolute",
-                          top: star.top,
-                          left: star.left,
-                          width: star.size,
-                          height: star.size,
-                          borderRadius: "50%",
-                          background: "white",
-                          opacity: star.opacity,
-                          animation: `sparklePulse ${star.dur} ease-in-out ${star.delay} infinite`,
-                        }}
-                      />
-                    ))}
-                  </div>
-                  {/* Grain texture */}
-                  <div className="nebula-grain" />
-                  {/* Vignette */}
-                  <div className="nebula-vignette" />
-                  {/* Glowing orb */}
-                  <div className="nebula-orb" />
-                  {/* Aurora scan lines */}
-                  <div className="nebula-scan" />
-                  <div className="nebula-scan" />
-                </div>
+                {/* Star field (z-index 1, above ::before/::after which are z-index 0) */}
+                {STARS.map((star,i)=>(
+                  <div key={i} style={{
+                    position:"absolute", top:star.top, left:star.left,
+                    width:star.size, height:star.size,
+                    borderRadius:"50%", background:"white",
+                    opacity:star.opacity, zIndex:1, pointerEvents:"none",
+                    animation:`sparklePulse ${star.dur} ease-in-out ${star.delay} infinite`,
+                  }}/>
+                ))}
 
-                {/* DESKTOP: 3D animated card scene (layered on top of nebula) */}
+                {/* Orb + scan lines + vignette */}
+                <div className="nebula-orb"/>
+                <div className="nebula-scan"/>
+                <div className="nebula-scan s2"/>
+                <div className="nebula-vignette"/>
+
+                {/* 3D card scene — background: transparent so nebula shows through */}
                 <div className="card-scene">
-                  {selected.image ? (
+                  {selected.image?(
                     <>
-                      <div className="card-shadow" />
+                      <div className="card-shadow"/>
                       <div className="card-wrapper" key={selected.image}>
-                        <img
-                          src={selected.image}
-                          alt={selected.name}
-                          className="card-img"
-                        />
-                        <div className="card-holo" />
-                        <div className="card-glare" />
+                        <img src={selected.image} alt={selected.name} className="card-img"/>
+                        <div className="card-holo"/>
+                        <div className="card-glare"/>
                         <div className="card-sparkle">
-                          {SPARKLES.map((s, i) => (
-                            <div
-                              key={i}
-                              className="sparkle-dot"
-                              style={{
-                                top: s.top,
-                                left: s.left,
-                                width: s.size,
-                                height: s.size,
-                                "--dur": s.dur,
-                                "--delay": s.delay,
-                              }}
-                            />
+                          {SPARKLES.map((s,i)=>(
+                            <div key={i} className="sparkle-dot" style={{
+                              top:s.top, left:s.left, width:s.size, height:s.size,
+                              "--dur":s.dur, "--delay":s.delay,
+                            }}/>
                           ))}
                         </div>
                       </div>
                     </>
-                  ) : (
+                  ):(
                     <div className="modal-no-img">NO IMAGE</div>
                   )}
                 </div>
 
-                {/* MOBILE: flat image */}
-                {selected.image && (
-                  <img
-                    src={selected.image}
-                    alt={selected.name}
-                    className="modal-card-img-mobile"
-                    style={{
-                      position: "absolute", inset: 0,
-                      width: "100%", height: "100%",
-                      objectFit: "cover", objectPosition: "top center",
-                      display: "none",
-                    }}
-                  />
+                {/* Mobile flat fallback */}
+                {selected.image&&(
+                  <img src={selected.image} alt={selected.name} className="modal-card-img-mobile"
+                    style={{display:"none"}}/>
                 )}
 
-                {/* name + chips */}
                 <div className="modal-left-foot">
                   <div className="modal-card-name">{selected.name}</div>
                   <div className="modal-chips">
-                    {selected.productLine && <span className="chip">{selected.productLine}</span>}
-                    {selected.setName      && <span className="chip">{selected.setName}</span>}
-                    {selected.rarity       && <span className="chip">{selected.rarity}</span>}
-                    {selected.finish       && <span className="chip">{selected.finish}</span>}
-                    {selected.cardCode     && <span className="chip">{selected.cardCode}</span>}
+                    {selected.productLine&&<span className="chip">{selected.productLine}</span>}
+                    {selected.setName     &&<span className="chip">{selected.setName}</span>}
+                    {selected.rarity      &&<span className="chip">{selected.rarity}</span>}
+                    {selected.finish      &&<span className="chip">{selected.finish}</span>}
+                    {selected.cardCode    &&<span className="chip">{selected.cardCode}</span>}
                   </div>
                 </div>
               </div>
 
-              {/* ── RIGHT / STORES PANEL ── */}
+              {/* ── RIGHT PANEL ── */}
               <div className="modal-right">
                 <div className="modal-right-head">
                   <div className="modal-right-title">Buylist Offers</div>
-                  <div className="modal-right-sub">
-                    {selected.buylistCount || 0} store{(selected.buylistCount || 0) !== 1 ? "s" : ""} buying this card
-                  </div>
+                  <div className="modal-right-sub">{selected.buylistCount||0} store{(selected.buylistCount||0)!==1?"s":""} buying this card</div>
                 </div>
-
                 <div className="modal-best">
-                  <div className="best-item">
-                    <span className="best-lbl">Best Cash</span>
-                    <span className="best-val">{money(bestCash)}</span>
-                  </div>
-                  <div className="best-item">
-                    <span className="best-lbl">Best Credit</span>
-                    <span className="best-val secondary">{money(bestCredit)}</span>
-                  </div>
+                  <div className="best-item"><span className="best-lbl">Best Cash</span><span className="best-val">{money(bestCash)}</span></div>
+                  <div className="best-item"><span className="best-lbl">Best Credit</span><span className="best-val secondary">{money(bestCredit)}</span></div>
                 </div>
-
                 <div className="modal-stores-scroll">
-                  {modalStores.map((store, idx) => (
+                  {modalStores.map((store,idx)=>(
                     <div key={`${store.storeKey}-${idx}`} className="store-entry">
                       <div className="store-entry-head">
-                        <div className={`rank-badge${idx === 0 ? " first" : ""}`}>{idx + 1}</div>
+                        <div className={`rank-badge${idx===0?" first":""}`}>{idx+1}</div>
                         <span className="store-entry-name">{store.storeName}</span>
                         <div className="store-entry-links">
-                          {store.storeBaseUrl    && <a className="entry-link" href={store.storeBaseUrl}    target="_blank" rel="noreferrer">Store ↗</a>}
-                          {store.storeBuylistUrl && <a className="entry-link" href={store.storeBuylistUrl} target="_blank" rel="noreferrer">Buylist ↗</a>}
+                          {store.storeBaseUrl   &&<a className="entry-link" href={store.storeBaseUrl}    target="_blank" rel="noreferrer">Store ↗</a>}
+                          {store.storeBuylistUrl&&<a className="entry-link" href={store.storeBuylistUrl} target="_blank" rel="noreferrer">Buylist ↗</a>}
                         </div>
                       </div>
-
                       <div className="store-entry-prices">
-                        <div className="price-col">
-                          <span className="price-col-lbl">Cash</span>
-                          <span className="price-col-val cash">{money(store.cashPrice)}</span>
-                        </div>
-                        <div className="price-col">
-                          <span className="price-col-lbl">Credit</span>
-                          <span className="price-col-val credit">{money(store.creditPrice)}</span>
-                        </div>
-                        <div className="price-col">
-                          <span className="price-col-lbl">Retail</span>
-                          <span className="price-col-val">{money(store.marketPrice)}</span>
-                        </div>
+                        <div className="price-col"><span className="price-col-lbl">Cash</span><span className="price-col-val cash">{money(store.cashPrice)}</span></div>
+                        <div className="price-col"><span className="price-col-lbl">Credit</span><span className="price-col-val credit">{money(store.creditPrice)}</span></div>
+                        <div className="price-col"><span className="price-col-lbl">Retail</span><span className="price-col-val">{money(store.marketPrice)}</span></div>
                       </div>
-
-                      {(store.variants || []).length > 0 && (
+                      {(store.variants||[]).length>0&&(
                         <div className="variants-table">
                           <div className="vrow vhead">
                             <div className="vcell vhead-lbl">Variant</div>
@@ -1266,7 +616,7 @@ export default function App() {
                             <div className="vcell vhead-lbl vnum">Credit</div>
                             <div className="vcell vhead-lbl vnum">Retail</div>
                           </div>
-                          {(store.variants || []).map((v, vi) => (
+                          {(store.variants||[]).map((v,vi)=>(
                             <div key={`${v.title}-${vi}`} className="vrow">
                               <div className="vcell vname">{v.title}</div>
                               <div className="vcell vcash vnum">{money(v.cashPrice)}</div>
